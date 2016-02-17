@@ -1,5 +1,5 @@
 {
-  "name": "TestBench",
+  "name": "NodeTestBench",
   "version": "0.0.1",
   "description": "Intentionally Vulnerable Node Application",
   "main": "index.js",
