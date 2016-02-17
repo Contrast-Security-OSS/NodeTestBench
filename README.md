@@ -59,7 +59,7 @@ If you prefer to run your app with **npm**, you can add a run script to your app
 
 ``` javascript
 "scripts": {
-	"contrast": "node-contrast <app-main>.js",
+	"contrast": "node-contrast index.js",
 	"start": ...,
 	"test": ...
 }
