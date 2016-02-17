@@ -1,0 +1,17 @@
+{
+  "name": "TestBench",
+  "version": "0.0.1",
+  "description": "Intentionally Vulnerable Node Application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+	"start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "ejs": "^2.3.4",
+    "express": "^4.13.3"
+  }
+}
