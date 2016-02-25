@@ -24,7 +24,7 @@ module.exports = (function() {
     api.post('/writeFile', function(req, res) {
         var path = req.body.user_path;
 
-        fs.writeFile(path, 'Hello Node.js', (err) => {
+        fs.writeFile(path,function(err){
             if (err) throw err;
             res.send('It\'s saved!');
         });
