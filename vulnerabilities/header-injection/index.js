@@ -4,20 +4,20 @@ var crypto = require('crypto');
 var fs = require('fs');
 
 
-module.exports = (function() {
+module.exports = (function () {
     'use strict';
     var api = express.Router();
 
-    api.get('/', function(req, res) {
+    api.get('/', function (req, res) {
 		res.render('../vulnerabilities/header-injection/views/index');
     });
 
-    api.get('/go', function(req, res) {
+    api.get('/go', function (req, res) {
         // prevent cache
-        res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+		res.header("Cache-Control", "no-cache, no-store, must-revalidate");
         res.header("Pragma", "no-cache");
         res.header("Expires", 0);
-        
+
         var path = req.query.user_path;
         //console.log(path);
 		//res.writeHead(302, { "Location": path });

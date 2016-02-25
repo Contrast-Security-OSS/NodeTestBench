@@ -1,14 +1,14 @@
 var express = require('express');
 
-module.exports = (function() {
+module.exports = (function () {
     'use strict';
     var api = express.Router();
 
-    api.get('/', function(req, res) {
+    api.get('/', function (req, res) {
 		res.render('../vulnerabilities/xss/views/index');
     });
 
-    api.get('/query_string', function(req, res) {
+    api.get('/query_string', function (req, res) {
 		res.set('X-XSS-Protection', '0'); // disable browser xss protection for chrome
 		// taint user input 
 		var input = req.query.input;
@@ -17,10 +17,10 @@ module.exports = (function() {
 		res.send(output);
     });
 
-	api.get('/param_test/:input', function(req, res) {
+	api.get('/param_test/:input', function (req, res) {
 		res.set('X-XSS-Protection', '0'); // disable browser xss protection for chrome
 		var output = "<html>param: " + req.params.input + "</html>"
-		
+
 		console.log(req.url);
 		// this should trigger XSS 
 		res.send(output);
@@ -32,6 +32,6 @@ module.exports = (function() {
 		var output = "<html>e-mail: " + input + "</html>"
 		res.send(output);
 	});
-	
+
     return api;
 })();

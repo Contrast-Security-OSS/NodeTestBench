@@ -20,10 +20,10 @@ app.use('/path-traversal', require('./vulnerabilities/path-traversal/'));
 app.use('/header-injection', require('./vulnerabilities/header-injection/'));
 
 app.get('/', function (req, res) {
-  //res.send('Hello World!');
-  res.render('pages/index');
+	//res.send('Hello World!');
+	res.render('pages/index');
 });
 
 app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
+	console.log('Example app listening on port 3000!');
 })
