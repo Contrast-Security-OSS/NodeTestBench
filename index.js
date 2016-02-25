@@ -15,6 +15,9 @@ app.use('/command_injection', require('./vulnerabilities/command_injection/'));
 app.use('/unsafe_eval', require('./vulnerabilities/unsafe_eval/'));
 app.use('/crypto', require('./vulnerabilities/crypto/'));
 app.use('/http', require('./vulnerabilities/http/'));
+app.use('/unvalidated-redirect', require('./vulnerabilities/unvalidated-redirect/'));
+app.use('/path-traversal', require('./vulnerabilities/path-traversal/'));
+app.use('/header-injection', require('./vulnerabilities/header-injection/'));
 
 app.get('/', function (req, res) {
   //res.send('Hello World!');

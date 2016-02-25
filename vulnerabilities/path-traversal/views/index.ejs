@@ -1,0 +1,32 @@
+ <% include ../../../views/partials/header %>
+	  
+		  
+		 <h1 class="page-header">Path-Traversal</h1>
+
+		  <div class="row" style="min-height: 200px;">
+		  	<div class="col-xs-12 col-sm-6" style="padding-bottom: 30px;">
+				<h4 class="sub-header">Path Traversal From fs.readFile</h4>
+				<form method="POST" action="/path-traversal/readFile" target="_blank">
+				  <div class="form-group">
+				    <label for="exampleInputEmail1">Path</label>
+				    <input name="user_path" class="form-control" id="exampleInputEmail1" value="index.js">
+				  </div>
+				  <button type="submit" class="btn btn-default">Submit</button>
+				</form>
+		  	</div>
+	  	  </div>
+
+		  <div class="row" style="min-height: 200px;">
+		  	<div class="col-xs-12 col-sm-6" style="padding-bottom: 30px;">
+				<h4 class="sub-header">Path Traversal From fs.writeFile</h4>
+				<form method="POST" action="/path-traversal/writeFile" target="_blank">
+				  <div class="form-group">
+				    <label for="exampleInputEmail1">Path</label>
+				    <input name="user_path" class="form-control" id="exampleInputEmail1" value="message.txt">
+				  </div>
+				  <button type="submit" class="btn btn-default">Submit</button>
+				</form>
+		  	</div>
+	  	  </div>
+		  
+ <% include ../../../views/partials/footer %>

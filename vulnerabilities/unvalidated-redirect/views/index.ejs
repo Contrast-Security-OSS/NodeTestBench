@@ -1,0 +1,19 @@
+ <% include ../../../views/partials/header %>
+	  
+		  
+		 <h1 class="page-header">Unvalidated-Redirect</h1>
+
+		  <div class="row" style="min-height: 200px;">
+		  	<div class="col-xs-12 col-sm-6" style="padding-bottom: 30px;">
+				<h4 class="sub-header">Redirect From res.redirect()</h4>
+				<form method="GET" action="/unvalidated-redirect/redir" target="_blank">
+				  <div class="form-group">
+				    <label for="exampleInputEmail1">Path</label>
+				    <input name="user_path" class="form-control" id="exampleInputEmail1" value="http://asdf.com">
+				  </div>
+				  <button type="submit" class="btn btn-default">Submit</button>
+				</form>
+		  	</div>
+	  	  </div>
+		  
+ <% include ../../../views/partials/footer %>
