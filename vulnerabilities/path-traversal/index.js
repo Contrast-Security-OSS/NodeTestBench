@@ -18,6 +18,17 @@ module.exports = (function() {
 
 	});
 
+	api.post('/readFile_safe', function(req, res) {
+		var path = req.body.user_path;
+		path = encodeURIComponent(path);
+
+		fs.readFile(path, 'utf8', function(err, data) {
+			if(err) res.send(err);
+			res.send(data);
+		});
+
+	});
+
 	api.post('/writeFile', function(req, res) {
 		var path = req.body.user_path;
 

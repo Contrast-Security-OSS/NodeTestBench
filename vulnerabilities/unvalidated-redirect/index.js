@@ -10,7 +10,6 @@ module.exports = (function() {
 
 	api.get('/redir', function(req, res) {
 		var path = req.query.user_path;
-		//path = encodeURIComponent(path);
 		res.redirect(path);
 	});
 
