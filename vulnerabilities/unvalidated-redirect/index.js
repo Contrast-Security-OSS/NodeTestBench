@@ -13,5 +13,10 @@ module.exports = (function() {
 		res.redirect(path);
 	});
 
+	api.get('/redir_status', function(req, res) {
+		var path = req.query.user_path;
+		res.redirect(302, path);
+	});
+
 	return api;
 })();
