@@ -29,7 +29,6 @@ module.exports = (function() {
 		res.set('X-XSS-Protection', '0'); // disable browser xss protection for chrome
 		var output = '<html>param: ' + req.params.input + '</html>';
 
-		console.log(req.url);
 		// this should trigger XSS 
 		res.send(output);
 	});
@@ -37,7 +36,6 @@ module.exports = (function() {
 		res.set('X-XSS-Protection', '0'); // disable browser xss protection for chrome
 		var output = '<html>param: ' + escape(req.params.input) + '</html>';
 
-		console.log(req.url);
 		// this should trigger XSS 
 		res.send(output);
 	});

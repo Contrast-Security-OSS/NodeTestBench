@@ -24,6 +24,17 @@ app.get('/', function (req, res) {
 	res.render('pages/index');
 });
 
-app.listen(3000, function () {
-	console.log('Example app listening on port 3000!');
+var port = 3000;
+var args = process.argv.slice(2);
+console.log(args);
+console.log(process.argv);
+
+app.listen(port, function () {
+	if(process.send) { process.send({'startup': true}); }
+	console.log('Example app listening on port %s!', port);
+});
+
+app.get('/quit', function(req, res) {
+	res.send('adieu, cherie');
+	process.exit();
 });
