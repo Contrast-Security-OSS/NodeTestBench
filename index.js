@@ -25,9 +25,6 @@ app.get('/', function (req, res) {
 });
 
 var port = 3000;
-var args = process.argv.slice(2);
-console.log(args);
-console.log(process.argv);
 
 app.listen(port, function () {
 	if(process.send) { process.send({'startup': true}); }
