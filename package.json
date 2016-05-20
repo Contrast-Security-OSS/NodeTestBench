@@ -5,13 +5,17 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-	"start": "node index.js"
+    "contrast": "DEBUG=contrast:* node /Users/matt/Projects/node-agent/node-agent-core/cli.js --debug index.js",
+    "target_contrast": "DEBUG=contrast:* node-contrast index.js",
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.14.2",
     "ejs": "^2.3.4",
-    "express": "^4.13.3"
+    "express": "^4.13.3",
+    "hooker": "^0.2.3",
+    "mysql": "^2.10.2"
   }
 }
