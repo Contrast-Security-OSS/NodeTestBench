@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "contrast": "DEBUG=contrast:* node /Users/matt/Projects/node-agent/node-agent-core/cli.js --debug index.js",
-    "target_contrast": "DEBUG=contrast:* node-contrast index.js",
+    "contrast": "DEBUG=contrast:* node-contrast index.js",
     "start": "node index.js"
   },
   "author": "",
