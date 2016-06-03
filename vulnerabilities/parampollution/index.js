@@ -5,11 +5,11 @@ module.exports = (function() {
 	var api = express.Router();
 
 	api.all('/', function(req, res) {
-		res.render('../vulnerabilities/http/views/index');
+		res.render('../vulnerabilities/parampollution/views/index');
 	});
 
 	api.all('/hpp', function(req, res) {
-		res.render('../vulnerabilities/http/views/index');
+		res.render('../vulnerabilities/parampollution/views/index');
 	});
 
 	return api;

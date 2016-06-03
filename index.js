@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+require('./vulnerabilities/static');
 
 var app = express();
 
@@ -15,7 +16,7 @@ app.use('/sqli', require('./vulnerabilities/sqli/'));
 app.use('/command_injection', require('./vulnerabilities/command_injection/'));
 app.use('/unsafe_eval', require('./vulnerabilities/unsafe_eval/'));
 app.use('/crypto', require('./vulnerabilities/crypto/'));
-app.use('/http', require('./vulnerabilities/http/'));
+app.use('/parampollution', require('./vulnerabilities/parampollution/'));
 app.use('/unvalidated-redirect', require('./vulnerabilities/unvalidated-redirect/'));
 app.use('/path-traversal', require('./vulnerabilities/path-traversal/'));
 app.use('/header-injection', require('./vulnerabilities/header-injection/'));
