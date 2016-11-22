@@ -1,0 +1,16 @@
+<% include ../../../views/partials/header %>
+<h1 class="page-header">Xpath Injection</h1>
+
+ <div class="row">
+   <div class="col-xs-12 col-sm-6" style="padding-bottom: 30px;">
+       <h4 class="sub-header">Xpath</h4>
+       <form method="GET" action="/xpath-injection/find" target="_blank">
+         <div class="form-group">
+           <label for="userField">Username Search</label>
+           <input name="username" class="form-control" id="userField" placeholder="" value="' or '1' = '1">
+         </div>
+         <button type="submit" class="btn btn-default">Submit</button>
+       </form>
+   </div>
+ </div>
+<% include ../../../views/partials/footer %>
