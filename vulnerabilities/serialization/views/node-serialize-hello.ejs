@@ -1,0 +1,16 @@
+<% include ../../../views/partials/header %>
+
+<h1 class="page-header">Serialization: node-serialize</h1>
+
+<div class="row">
+	<div class="col-xs-12 col-sm-6" style="padding-bottom: 30px;">
+		<form method="POST" action="/serialization/node-serialize/bye">
+			<h4 class="sub-header">Welcome back,
+				<span class=""><%= typeof name === 'undefined' ? 'anon' : name %></span>
+			</h4>
+			<button type="submit" class="btn btn-default">Log Out</button>
+		</form>
+	</div>
+</div>
+
+<% include ../../../views/partials/footer %>

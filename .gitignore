@@ -118,6 +118,8 @@ Session.vim
 # auto-generated tag files
 tags
 
+### NPM ###
+node_modules
 
 ### Emacs ###
 # -*- mode: gitignore; -*-
