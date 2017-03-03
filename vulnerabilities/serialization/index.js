@@ -9,7 +9,7 @@ module.exports = (function ( router ) {
 	var VIEWS_PREFIX = '../vulnerabilities/serialization/views';
 
 	var pathForView = _fn.replace(/:view/, _fn, VIEWS_PREFIX + '/:view');
-	
+
 	router.use(require('cookie-parser')());
 
 	router.get('/node-serialize', function ( req, res ) {
