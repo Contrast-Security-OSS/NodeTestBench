@@ -68,11 +68,4 @@ module.exports = (function ( router ) {
 		res.send('404: Not Found');
 	}
 
-	function four00 ( res ) {
-		res.status = 400;
-		res.send('400: Bad Request');
-	}
-
 }(require('express').Router()));
-
-
