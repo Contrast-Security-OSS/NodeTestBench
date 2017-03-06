@@ -21,6 +21,7 @@ app.use('/unvalidated-redirect', require('./vulnerabilities/unvalidated-redirect
 app.use('/path-traversal', require('./vulnerabilities/path-traversal/'));
 app.use('/header-injection', require('./vulnerabilities/header-injection/'));
 app.use('/config', require('./vulnerabilities/config/'));
+app.use('/serialization', require('./vulnerabilities/serialization'));
 
 app.get('/', function (req, res) {
 	//res.send('Hello World!');
