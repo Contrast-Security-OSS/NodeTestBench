@@ -68,5 +68,4 @@ module.exports = (function ( router ) {
 		res.send('404: Not Found');
 	}
 
-
 }(require('express').Router()));
