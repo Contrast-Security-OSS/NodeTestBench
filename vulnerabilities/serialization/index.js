@@ -23,10 +23,6 @@ module.exports = (function ( router ) {
 		res.redirect('/serialization/node-serialize/hello');
 	});
 
-	router.post('/node-unserialize', function ( req, res ) {
-		res.send(unserialize(serialize(req.body || {})));
-	});
-
 	router.post('/node-serialize/bye', function ( req, res ) {
 		res.clearCookie(COOKIE_UN);
 		res.redirect('/serialization/node-serialize');
