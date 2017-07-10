@@ -10,18 +10,26 @@ module.exports = (function() {
 
 	api.get('/query_string', function(req, res) {
 		res.set('X-XSS-Protection', '0'); // disable browser xss protection for chrome
-		// taint user input 
+		// taint user input
 		var input = req.query.input;
 		var output = '<html>input: ' + input + '</html>';
-			// this should trigger XSS 
+		// this should trigger XSS
+		res.send(output);
+	});
+	api.get('/query_string_protect', function(req, res) {
+		res.set('X-XSS-Protection', '0'); // disable browser xss protection for chrome
+		// taint user input
+		var input = req.query.input;
+		var output = '<html>input: ' + input + '</html>';
+		// this should trigger XSS
 		res.send(output);
 	});
 	api.get('/query_string_safe', function(req, res) {
 		res.set('X-XSS-Protection', '0'); // disable browser xss protection for chrome
-		// taint user input 
+		// taint user input
 		var input = escape(req.query.input);
 		var output = '<html>input: ' + input + '</html>';
-			// this should trigger XSS 
+		// this should trigger XSS
 		res.send(output);
 	});
 
@@ -29,19 +37,32 @@ module.exports = (function() {
 		res.set('X-XSS-Protection', '0'); // disable browser xss protection for chrome
 		var output = '<html>param: ' + req.params.input + '</html>';
 
-		// this should trigger XSS 
+		// this should trigger XSS
+		res.send(output);
+	});
+	api.get('/param_test_protect/:input', function(req, res) {
+		res.set('X-XSS-Protection', '0'); // disable browser xss protection for chrome
+		var output = '<html>param: ' + req.params.input + '</html>';
+
+		// this should trigger XSS
 		res.send(output);
 	});
 	api.get('/param_test_safe/:input', function(req, res) {
 		res.set('X-XSS-Protection', '0'); // disable browser xss protection for chrome
 		var output = '<html>param: ' + escape(req.params.input) + '</html>';
 
-		// this should trigger XSS 
+		// this should trigger XSS
 		res.send(output);
 	});
 
 
 	api.post('/xss_post', function(req, res, next) {
+		res.set('X-XSS-Protection', '0'); // disable browser xss protection for chrome
+		var input = req.body.email;
+		var output = '<html>e-mail: ' + input + '</html>';
+		res.send(output);
+	});
+	api.post('/xss_post_protect', function(req, res, next) {
 		res.set('X-XSS-Protection', '0'); // disable browser xss protection for chrome
 		var input = req.body.email;
 		var output = '<html>e-mail: ' + input + '</html>';

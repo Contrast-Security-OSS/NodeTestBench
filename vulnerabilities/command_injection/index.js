@@ -24,19 +24,19 @@ module.exports = (function() {
 		});
 	});
 
-	api.get('/param_test/:input', function(req, res) {
-		res.set('X-XSS-Protection', '0'); // disable browser xss protection for chrome
-		var output = '<html>param: ' + req.params.input + '</html>';
-			// this should trigger XSS 
-		res.send(output);
-	});
+	api.get('/childprocess_exec_protect', function(req, res) {
+		// this should be tainted
+		var path = req.query.user_path;
 
-	api.post('/xss_post', function(req, res, next) {
-		res.set('X-XSS-Protection', '0'); // disable browser xss protection for chrome
-		var input = req.body.email;
-		var output = '<html>e-mail: ' + input + '</html>';
-		console.log(output.__contrastProperties);
-		res.send(output);
+		var ls = 'ls -l ';
+
+		// propagation from path with concat of ls to new var cmd
+		var cmd = ls + path;
+
+		// trigger command injection
+		childProcess.exec(cmd, function(err, data) {
+			res.send('<xmp>' + data);
+		});
 	});
 
 	return api;
