@@ -43,7 +43,7 @@ module.exports = (function() {
 		);
 	});
 	api.get('/mysql_safe', function(req, res) {
-		connection.query('SELECT "' + req.query.name + '" as "test";',
+		connection.query('SELECT "' + 'clown' + '" as "test";',
 			function(error, rows, fields) {
 				res.send('The solution is: ' + util.inspect(rows));
 			}
@@ -57,7 +57,7 @@ module.exports = (function() {
 		);
 	});
 	api.get('/mysql_safe_protect', function(req, res) {
-		connection.query('SELECT "' + req.query.name + '" as "test";',
+		connection.query('SELECT "' + 'clown' + '" as "test";',
 			function(error, rows, fields) {
 				res.send('The solution is: ' + util.inspect(rows));
 			}
