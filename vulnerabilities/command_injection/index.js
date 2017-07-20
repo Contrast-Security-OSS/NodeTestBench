@@ -24,20 +24,5 @@ module.exports = (function() {
 		});
 	});
 
-	api.get('/childprocess_exec_protect', function(req, res) {
-		// this should be tainted
-		var path = req.query.user_path;
-
-		var ls = 'ls -l ';
-
-		// propagation from path with concat of ls to new var cmd
-		var cmd = ls + path;
-
-		// trigger command injection
-		childProcess.exec(cmd, function(err, data) {
-			res.send('<xmp>' + data);
-		});
-	});
-
 	return api;
 })();
