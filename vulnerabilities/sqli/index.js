@@ -42,6 +42,13 @@ module.exports = (function() {
 			}
 		);
 	});
+	api.get('/mysql_safe', function(req, res) {
+		connection.query('SELECT "' + 'clown' + '" as "test";',
+			function(error, rows, fields) {
+				res.send('The solution is: ' + util.inspect(rows));
+			}
+		);
+	});
 
 	return api;
 })();

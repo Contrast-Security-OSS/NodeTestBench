@@ -1,14 +1,23 @@
 {
-    "rules": {
-        "indent": [ 2, "tab", {"SwitchCase": 1} ],
-        "quotes": [ 1, "single" ],
-        "linebreak-style": [ 2, "unix" ],
-        "semi": [ 2, "always" ],
-        "no-console": 0,
-        "no-unused-vars": 1
-    },
-    "env": {
-        "node": true
-    },
-    "extends": "eslint:recommended"
+	"rules": {
+		"indent": [ 2, "tab", {"SwitchCase": 1} ],
+		"quotes": [ 1, "single" ],
+		"linebreak-style": [ 2, "unix" ],
+		"semi": [ 2, "always" ],
+		"no-console": 1,
+		"no-unused-vars": ["error", { "args": "none" }],
+		"node/no-unsupported-features": ["error", {
+			"version": 4,
+			"ignores": []
+		}],
+		"node/no-deprecated-api": ["error", {
+			"ignoreModuleItems": [ "domain" ]
+		}],
+	},
+	"plugins": ["node"],
+	"parserOptions": {"ecmaVersion": 2017},
+	"env": {
+		"node": true
+	},
+	"extends": ["eslint:recommended", "plugin:node/recommended"]
 }
