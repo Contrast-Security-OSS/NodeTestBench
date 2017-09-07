@@ -10,7 +10,9 @@ module.exports = (function ( router ) {
 
 	var pathForView = _fn.replace(/:view/, _fn, VIEWS_PREFIX + '/:view');
 
-	router.use(require('cookie-parser')());
+
+	var cookieParser = require('cookie-parser')();
+	router.use(cookieParser);
 
 	router.get('/node-serialize', function ( req, res ) {
 		return _fn.path(['cookies', COOKIE_UN], req) ?
@@ -31,7 +33,7 @@ module.exports = (function ( router ) {
 	router.get('/node-serialize/hello', function ( req, res ) {
 		var user = getCookieValue(req, COOKIE_UN);
 		return user ?
-			res.render(pathForView('node-serialize-hello'), user) :	
+			res.render(pathForView('node-serialize-hello'), user) :
 			res.redirect('/serialization/node-serialize');
 	});
 
@@ -39,7 +41,7 @@ module.exports = (function ( router ) {
 	router.use(function ( _, res ) {
 		return four04(res);
 	});
-	
+
 	return router;
 
 	// -- local fns ----------------------------------------

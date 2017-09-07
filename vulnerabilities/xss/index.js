@@ -43,16 +43,35 @@ module.exports = (function() {
 
 	api.post('/xss_post', function(req, res, next) {
 		res.set('X-XSS-Protection', '0'); // disable browser xss protection for chrome
-		var input = req.body.email;
+		var input = req.body.input;
 		var output = '<html>e-mail: ' + input + '</html>';
 		res.send(output);
 	});
 	api.post('/xss_post_safe', function(req, res, next) {
 		res.set('X-XSS-Protection', '0'); // disable browser xss protection for chrome
-		var input = escape(req.body.email);
+		var input = escape(req.body.input);
 		var output = '<html>e-mail: ' + input + '</html>';
 		res.send(output);
 	});
+
+	api.get('/header', function(req, res) {
+		res.set('X-XSS-Protection', '0'); // disable browser xss protection for chrome
+		// taint user input
+		var input = req.headers.input;
+		var output = '<html>header: ' + input + '</html>';
+		// this should trigger XSS
+		res.send(output);
+	});
+
+	api.get('/cookie', function(req, res) {
+		res.set('X-XSS-Protection', '0'); // disable browser xss protection for chrome
+		// taint user input
+		var input = req.headers.input;
+		var output = '<html>header: ' + input + '</html>';
+		// this should trigger XSS
+		res.send(output);
+	});
+
 
 	return api;
 })();
