@@ -26,7 +26,7 @@
 				<form method="POST" action="/xss_test/xss_post" target="_blank">
 				  <div class="form-group">
 				    <label for="exampleInputEmail1">Email address</label>
-				    <input name="email" class="form-control" id="exampleInputEmail1" placeholder="Email" value="&lt;script&gt;alert(1);&lt;/script&gt;">
+				    <input name="input" class="form-control" id="exampleInputEmail1" placeholder="Email" value="&lt;script&gt;alert(1);&lt;/script&gt;">
 				  </div>
 				  <button type="submit" class="btn btn-default">Submit</button>
 				</form>
@@ -38,7 +38,7 @@
 				<form method="POST" action="/xss_test/xss_post_safe" target="_blank">
 				  <div class="form-group">
 				    <label for="exampleInputEmail1">Email address</label>
-				    <input name="email" class="form-control" id="exampleInputEmail1" placeholder="Email" value="&lt;script&gt;alert(1);&lt;/script&gt;">
+				    <input name="input" class="form-control" id="exampleInputEmail1" placeholder="Email" value="&lt;script&gt;alert(1);&lt;/script&gt;">
 				  </div>
 				  <button type="submit" class="btn btn-default">Submit</button>
 				</form>
