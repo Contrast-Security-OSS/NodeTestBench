@@ -53,6 +53,8 @@ module.exports = (function() {
 		res.send(output);
 	});
 
+	// NOTE: these are not used by protect tests, as the reflected XSS rule doesn't
+	// use headers as an input type
 	api.get('/header', function(req, res) {
 		res.set('X-XSS-Protection', '0'); // disable browser xss protection for chrome
 		// taint user input
