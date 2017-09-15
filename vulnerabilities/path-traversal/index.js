@@ -23,7 +23,7 @@ module.exports = (function() {
 		path = encodeURIComponent(path);
 
 		fs.readFile(path, 'utf8', function(err, data) {
-			if(err) res.send(err);
+			if (err) res.send(err);
 			res.send(data);
 		});
 
@@ -32,7 +32,7 @@ module.exports = (function() {
 	api.post('/writeFile', function(req, res) {
 		var path = req.body.user_path;
 
-		fs.writeFile(path, function(err) {
+		fs.writeFile(path, '', function(err) {
 			if (err) throw err;
 			res.send('It\'s saved!');
 		});
