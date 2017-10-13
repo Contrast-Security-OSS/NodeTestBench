@@ -19,6 +19,6 @@
     "lodash": "^4.17.4",
     "mysql": "^2.10.2",
     "node-serialize": "0.0.4",
-    "node_contrast": "file:node_contrast-1.6.0.tgz"
+    "pem": "^1.12.3"
   }
 }
