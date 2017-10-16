@@ -42,7 +42,8 @@ const isHttp = process.env.SSL !== '1' ? true : false;
 const listener = ( ) => {
 	var stop = Date.now();
 	console.log(`startup time: ${stop - start}`);
-	console.log(`App running${isHttp ? ' ' : ' securely '}on port ${port}`);
+	console.log(`example app listening on port ${port}${isHttp ? '' : ', securely.'}`);
+	if (process.send) { process.send({ 'startup': true }); }
 };
 
 /* Start Server based on protocol */
