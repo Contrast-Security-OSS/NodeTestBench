@@ -1,3 +1,4 @@
+var start = Date.now();
 var express = require('express');
 var bodyParser = require('body-parser');
 require('./vulnerabilities/static');
@@ -12,6 +13,7 @@ app.set('views', __dirname+'/views');
 app.set('view engine', 'ejs');
 
 app.use('/xss_test', require('./vulnerabilities/xss/'));
+app.use('/xss_objects', require('./vulnerabilities/xss/objects/'));
 app.use('/sqli', require('./vulnerabilities/sqli/'));
 app.use('/command_injection', require('./vulnerabilities/command_injection/'));
 app.use('/unsafe_eval', require('./vulnerabilities/unsafe_eval/'));
@@ -33,6 +35,8 @@ var port = 3000;
 
 app.listen(port, function () {
 	if(process.send) { process.send({'startup': true}); }
+	var stop = Date.now();
+	console.log(`startup time: ${stop - start}`);
 	console.log('Example app listening on port %s!', port);
 });
 
