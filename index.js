@@ -37,13 +37,18 @@ app.get('/', function (req, res) {
 	res.render('pages/index');
 });
 
-const port = process.env.PORT || 3000;
+app.get('/quit', function(req, res) {
+	res.send('adieu, cherie');
+	process.exit(); // eslint-disable-line
+});
+
+const port = 3000;
+// const port = process.env.PORT || 3000;
 const isHttp = process.env.SSL !== '1' ? true : false;
 const listener = ( ) => {
 	var stop = Date.now();
 	console.log(`startup time: ${stop - start}`);
 	console.log(`example app listening on port ${port}${isHttp ? '' : ', securely.'}`);
-	if (process.send) { process.send({ 'startup': true }); }
 };
 
 /* Start Server based on protocol */
@@ -55,8 +60,3 @@ isHttp ?
 			{ key: keys.serviceKey, cert: keys.certificate },
 			app).listen(port, listener);
 	});
-
-app.get('/quit', function(req, res) {
-	res.send('adieu, cherie');
-	process.exit(); // eslint-disable-line
-});
