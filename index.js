@@ -42,8 +42,7 @@ app.get('/quit', function(req, res) {
 	process.exit(); // eslint-disable-line
 });
 
-const port = 3000;
-// const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 const isHttp = process.env.SSL !== '1' ? true : false;
 const listener = ( ) => {
 	var stop = Date.now();
