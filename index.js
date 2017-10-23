@@ -1,9 +1,16 @@
-var start = Date.now();
-var express = require('express');
-var bodyParser = require('body-parser');
+'use strict';
+
+const start = Date.now();
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const http = require('http');
+const https = require('https');
+const pem = require('pem');
+
 require('./vulnerabilities/static');
 
-var app = express();
+const app = express();
 
 app.use('/assets', express.static('public'));
 //app.use(bodyParser.json()); // for parsing application/json
@@ -27,20 +34,28 @@ app.use('/config', require('./vulnerabilities/config/'));
 app.use('/serialization', require('./vulnerabilities/serialization'));
 
 app.get('/', function (req, res) {
-	//res.send('Hello World!');
 	res.render('pages/index');
-});
-
-var port = 3000;
-
-app.listen(port, function () {
-	if(process.send) { process.send({'startup': true}); }
-	var stop = Date.now();
-	console.log(`startup time: ${stop - start}`);
-	console.log('Example app listening on port %s!', port);
 });
 
 app.get('/quit', function(req, res) {
 	res.send('adieu, cherie');
-	process.exit();
+	process.exit(); // eslint-disable-line
 });
+
+const port = process.env.PORT || 3000;
+const isHttp = process.env.SSL !== '1' ? true : false;
+const listener = ( ) => {
+	var stop = Date.now();
+	console.log(`startup time: ${stop - start}`);
+	console.log(`example app listening on port ${port}${isHttp ? '' : ', securely.'}`);
+};
+
+/* Start Server based on protocol */
+isHttp ?
+	http.createServer(app).listen(port, listener) :
+	pem.createCertificate({ days: 1, selfSigned: true }, ( err, keys ) => {
+		if (err) { throw err; }
+		https.createServer(
+			{ key: keys.serviceKey, cert: keys.certificate },
+			app).listen(port, listener);
+	});
