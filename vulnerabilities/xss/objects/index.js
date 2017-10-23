@@ -2,10 +2,16 @@
 var express = require('express');
 
 function baseHandler(type, safe, req, res) {
-	const input = safe ? encodeURIComponent(req[type].input)
-		: req[type].input;
+	const input = req[type];
 
-	const output = '<html>' + input + '</html>';
+	let output;
+	if (safe) {
+		// this will produce something like <html>[object Object]</html>
+		output = '<html>' + input + '</html>';
+	} else {
+		output = '<html' + JSON.stringify(input) + '</html>';
+	}
+
 	res.send(output);
 }
 
