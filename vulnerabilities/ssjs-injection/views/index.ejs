@@ -1,0 +1,215 @@
+<% include ../../../views/partials/header %>
+
+<h1 class="page-header">SSJS Injection</h1>
+<div class="row">
+
+	<div class="col-sm-10 col-sm-8" style="padding-bottom: 30px;">
+		<h3>Sinks</h3>
+
+		<ul>
+
+			<!-- ####  eval  ############################ -->
+			<li class="sink-list">
+				<div>
+					<span>Global <code>eval()</code> function:</span>
+					<h3 class="sub-header"><code>eval</code></h3>
+					<form method="GET" action="/ssjs-injection/eval/unsafe" target="_blank">
+						<div class="form-group">
+							<label for="ssjs-eval">Source Code: <code>eval(`({ name: '${input}'})`);</code></label>
+							<input name="input" class="form-control" id="ssjs-eval" placeholder="" value="matt '+process.pid+'">
+						</div>
+						<button type="submit" class="btn btn-default">Submit</button>
+					</form>
+				</div>
+			</li>
+
+			<!-- ####  Function  ######################## -->
+			<li class="sink-list">
+				<div>
+					<span>Global <code>Function()</code> constructor:</span>
+					<h3 class="sub-header"><code>Function</code></h3>
+					<form method="GET" action="/ssjs-injection/function/unsafe" target="_blank">
+						<div class="form-group">
+							<label for="ssjs-function">Source Code: <code>Function(`return { name: '${input}'};`);</code></label>
+							<input name="input" class="form-control" id="ssjs-function" placeholder="" value="matt '+process.pid+'">
+						</div>
+						<button type="submit" class="btn btn-default">Submit</button>
+					</form>
+				</div>
+			</li>
+
+			<!-- ####  vm.runInContext  ################# -->
+			<li class="sink-list">
+				<div>
+					<span>Node.js VM Module:</span>
+					<h3 class="sub-header"><code>vm.runInContext()</code></h3>
+					<form method="GET" action="/ssjs-injection/vm-run-in-context/unsafe" target="_blank">
+						<div class="form-group">
+							<label for="ssjs-vm-run-in-context">
+								Source Code: <code>vm.runInContext(`name = ${input};`, ctx);</code>
+							</label>
+							<input name="input" class="form-control" id="ssjs-vm-run-in-context" placeholder="" value="'matt '+process.pid">
+						</div>
+						<button type="submit" class="btn btn-default">Submit</button>
+					</form>
+				</div>
+
+
+			<!-- ####  vm.runInNewContext  ############## -->
+			<div>
+				<h3 class="sub-header"><code>vm.runInNewContext()</code></h3>
+				<form method="GET" action="/ssjs-injection/vm-run-in-new-context/unsafe" target="_blank">
+					<div class="form-group">
+						<label for="ssjs-vm-run-in-new-context">
+							Source Code: <code>vm.runInNewContext(`name = ${input};`, sb);</code>
+						</label>
+						<input name="input" class="form-control" id="ssjs-vm-run-in-new-context" placeholder="" value="'matt '+process.pid">
+					</div>
+					<button type="submit" class="btn btn-default">Submit</button>
+				</form>
+			</div>
+
+			<!-- ####  vm.runInThisContext  ############# -->
+			<div>
+				<h3 class="sub-header"><code>vm.runInThisContext()</code></h3>
+				<form method="GET" action="/ssjs-injection/vm-run-in-this-context/unsafe" target="_blank">
+					<div class="form-group">
+						<label for="ssjs-vm-run-in-this-context">
+							Source Code: <code>vm.runInThisContext(`name = ${input};`);</code>
+						</label>
+						<input name="input" class="form-control" id="ssjs-vm-run-in-this-context" placeholder="" value="'matt '+process.pid">
+					</div>
+					<button type="submit" class="btn btn-default">Submit</button>
+				</form>
+			</div>
+
+			<!-- ####  vm.createContext  ################ -->
+			<div>
+				<h3 class="sub-header"><code>vm.createContext()</code></h3>
+				<form method="GET" action="/ssjs-injection/vm-create-context/unsafe" target="_blank">
+					<div class="form-group">
+						<label for="ssjs-vm-create-context">
+							Source Code: <code>vm.createContext({ name: input, process });</code>
+						</label>
+						<input name="input" class="form-control" id="ssjs-vm-create-context" placeholder="" value="'matt '+process.pid">
+					</div>
+					<button type="submit" class="btn btn-default">Submit</button>
+				</form>
+			</div>
+
+			<!-- ####  vm.Script  ####################### -->
+			<div>
+				<h3 class="sub-header"><code>vm.Script()</code></h3>
+				<form method="GET" action="/ssjs-injection/vm-script/unsafe" target="_blank">
+					<div class="form-group">
+						<label for="ssjs-vm-script">
+							Source Code: <code>new vm.Script(`name = ${input};`);</code>
+						</label>
+						<input name="input" class="form-control" id="ssjs-vm-script" placeholder="" value="'matt '+process.pid">
+					</div>
+					<button type="submit" class="btn btn-default">Submit</button>
+				</form>
+			</div>
+
+			<!-- ####  Script.runInContext ########### -->
+			<div>
+				<h3 class="sub-header"><code>Script.runInContext()</code></h3>
+				<form method="get" action="/ssjs-injection/vm-script-run-in-context/unsafe" target="_blank">
+					<div class="form-group">
+						<label for="ssjs-vm-script-run-in-context">
+							source code: <code>new vm.Script(`name = ${input};`).runInContext(ctx);</code>
+						</label>
+						<input name="input" class="form-control" id="ssjs-vm-script-run-in-context" placeholder="" value="'matt '+process.pid">
+					</div>
+					<button type="submit" class="btn btn-default">submit</button>
+				</form>
+			</div>
+
+			<!-- ####  vm.script.runInNewContext ########### -->
+			<div>
+				<h3 class="sub-header"><code>Script.runInNewContext()</code></h3>
+				<form method="get" action="/ssjs-injection/vm-script-run-in-new-context/unsafe" target="_blank">
+					<div class="form-group">
+						<label for="ssjs-vm-script-run-in-new-context">
+							source code: <code>new vm.Script(`name = ${input};`).runInNewContext(sb);</code>
+						</label>
+						<input name="input" class="form-control" id="ssjs-vm-script-run-in-new-context" placeholder="" value="'matt ' + process.pid">
+					</div>
+					<button type="submit" class="btn btn-default">submit</button>
+				</form>
+			</div>
+
+			<!-- ####  vm.script.runInThisContext ########### -->
+			<div>
+				<h3 class="sub-header"><code>Script.runInThisContext()</code></h3>
+				<form method="get" action="/ssjs-injection/vm-script-run-in-this-context/unsafe" target="_blank">
+					<div class="form-group">
+						<label for="ssjs-vm-script-run-in-this-context">
+							source code: <code>new vm.Script(`name = ${input};`).runInThisContext();</code>
+						</label>
+						<input name="input" class="form-control" id="ssjs-vm-script-run-in-this-context" placeholder="" value="'matt '+process.pid">
+					</div>
+					<button type="submit" class="btn btn-default">submit</button>
+				</form>
+			</div>
+
+		</ul>
+	</div>
+</div>
+
+<% include ../../../views/partials/footer %>
+
+<style type="text/css" id="ssjs-styles">
+ .sink-list { padding-bottom : 3em; }
+
+ button.method.left {
+	 border-top-right-radius : 0;
+	 border-bottom-right-radius : 0;
+	 border-right: none;
+	 padding-right : .5em;
+	 margin-right: 0;
+ }
+ button.method.right {
+	 border-top-left-radius : 0;
+	 border-bottom-left-radius : 0;
+	 border-left: none;
+	 padding-left : .5em;
+	 margin-left: 0;
+ }
+ button.method.active {
+	color: #333;
+	background-color: #e6e6e6;
+	border-color: #adadad;
+ }
+</style>
+
+<script type="text/javascript">
+$(function ( ) {
+	$('form')
+		.attr('target', 'ssjs-injection')
+		.each(( idx, elem ) => {
+			$(elem).find('.form-group').after(
+				$('<button>')
+					.text('GET'),
+					.attr('type', 'button')
+					.text('GET')
+					.addClass('method left btn btn-default active')
+					.on('click', ( e ) => {
+						const elem = $(e.target);
+						elem.addClass('active');
+						elem.siblings('.method').removeClass('active');
+						elem.closest('form').attr('method', 'GET');
+					}),
+				$('<button>')
+					.text('POST')
+					.attr('type', 'button')
+					.addClass('method right btn btn-default')
+					.on('click', ( e ) => {
+						const elem = $(e.target);
+						elem.addClass('active');
+						elem.siblings('.method').removeClass('active');
+						elem.closest('form').attr('method', 'POST');
+					}));
+		});
+});
+</script>

@@ -12,7 +12,7 @@ module.exports = (function () {
 	api.get('/unsafe', function (req, res) {
 		// this should be tainted
 		var input = req.query.name;
-        var data = eval("({name:'" + input + "'})");
+    var data = eval("({name:'" + input + "'})");
 		res.send('<xmp>' + data.name);
 	});
 

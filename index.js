@@ -32,6 +32,7 @@ app.use('/header-injection', require('./vulnerabilities/header-injection/'));
 app.use('/csp-header-insecure', require('./vulnerabilities/csp-header-insecure'));
 app.use('/config', require('./vulnerabilities/config/'));
 app.use('/serialization', require('./vulnerabilities/serialization'));
+app.use('/ssjs-injection', require('./vulnerabilities/ssjs-injection'));
 
 app.get('/', function (req, res) {
 	res.render('pages/index');
@@ -46,8 +47,10 @@ const port = process.env.PORT || 3000;
 const isHttp = process.env.SSL !== '1' ? true : false;
 const listener = ( ) => {
 	var stop = Date.now();
+	/* eslint-disable */
 	console.log(`startup time: ${stop - start}`);
 	console.log(`example app listening on port ${port}${isHttp ? '' : ', securely.'}`);
+	/* eslint-enable */
 };
 
 /* Start Server based on protocol */

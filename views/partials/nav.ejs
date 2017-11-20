@@ -1,59 +1,60 @@
 <div class="col-sm-3 col-md-2 sidebar">
-	<!--
-		 <ul class="nav nav-sidebar">
-		 <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-		 <li><a href="#">About</a></li>
-		 </ul>
-	   -->
 
 	<label>XSS</label>
 	<ul class="nav nav-sidebar">
-		<li><a href="/xss_test">xss-reflected</a></li>
+		<li><a href="/xss_test">Reflected XSS</a></li>
 	</ul>
 
-	<label>Command Injection</label>
+	<label>Injection</label>
 	<ul class="nav nav-sidebar">
-		<li><a href="/command_injection">command-injection</a></li>
-		<li><a href="/unsafe_eval">unsafe-eval</a></li>
-	</ul>
-
-	<label>SQL Injection</label>
-	<ul class="nav nav-sidebar">
-		<li><a href="/sqli">sql-injection</a></li>
+		<li><a href="/command_injection">Command Injection</a></li>
+		<li><a href="/sqli">SQL Injection</a></li>
+		<li><a href="/ssjs-injection">SSJS Injection</a></li>
 	</ul>
 
 	<label>Header</label>
 	<ul class="nav nav-sidebar">
-		<li><a href="/unvalidated-redirect">unvalidated-redirect</a></li>
-		<li><a href="/header-injection">header-injection</a></li>
-		<li><a href="/csp-header-insecure">csp-header-insecure</a></li>
+		<li><a href="/unvalidated-redirect">Unvalidated Redirect</a></li>
+		<li><a href="/header-injection">Header Injection</a></li>
+		<li><a href="/csp-header-insecure">Csp Header Insecure</a></li>
 	</ul>
 
 	<label>File / Path</label>
 	<ul class="nav nav-sidebar">
-		<li><a href="/path-traversal">path-traversal</a></li>
+		<li><a href="/path-traversal">Path Traversal</a></li>
 	</ul>
 
 	<label>Crypto</label>
 	<ul class="nav nav-sidebar">
-		<li><a href="/crypto/crypto-bad-mac">crypto-bad-mac</a></li>
-		<li><a href="/crypto/crypto-bad-ciphers">crypto-bad-ciphers</a></li>
-		<li><a href="/crypto/crypto-weak-random">crypto-weak-random</a></li>
+		<li><a href="/crypto/crypto-bad-mac">Crypto Bad Mac</a></li>
+		<li><a href="/crypto/crypto-bad-ciphers">Crypto Bad Ciphers</a></li>
+		<li><a href="/crypto/crypto-weak-random">Crypto Weak Random</a></li>
 	</ul>
 
 	<label>HTTP</label>
 	<ul class="nav nav-sidebar">
-		<li><a href="/parampollution">http-parameter-pollution</a></li>
-		<li><a href="/parampollution">cache-control-missing</a></li>
+		<li><a href="/parampollution">Http Parameter Pollution</a></li>
+		<li><a href="/parampollution">Cache Control Missing</a></li>
 	</ul>
 
 	<label>Config</label>
 	<ul class="nav nav-sidebar">
-		<li><a href="/config">autocomplete-missing, cache-controls-missing, clickjacking-controls-missing, parameter-pollution</a></li>
+		<li>
+			<a href="/config">
+				Autocomplete Missing,
+				Cache Controls Missing,
+				Clickjacking Controls Missing,
+				Parameter Pollution
+			</a>
+		</li>
 	</ul>
 
-	<label>Serialization</label>
+	<label>Misc.</label>
 	<ul class="nav nav-sidebar">
-		<li><a href="/serialization/node-serialize">node-serialize</a></li>
+		<li>
+			<a href="/serialization/node-serialize">
+				node-serialize : CVE-2017-5941
+			</a>
+		</li>
 	</ul>
 </div>
