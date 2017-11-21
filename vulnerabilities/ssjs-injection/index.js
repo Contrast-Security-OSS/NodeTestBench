@@ -107,19 +107,11 @@ module.exports = app => {
 		throw new Error('Not implemented.');
 	};
 
-	const vmScript = input => {
-		const sb = { value: '', process };
-		const script = new vm.Script(`value = ${input};`);
-		script.runInNewContext(sb);
-
-		return sb.value;
-	};
-
 	const vmScriptRunInCtx = input => {
 		const sb = { value: '', process };
 		const ctx = vm.createContext(sb);
 		const script = new vm.Script(`value = ${input};`);
-		script.runInNewContext(ctx);
+		script.runInContext(ctx);
 
 		return sb.value;
 	};
@@ -152,7 +144,6 @@ module.exports = app => {
 		['/vm-run-in-new-context'        , vmRunInNewCtx       ],
 		['/vm-run-in-this-context'       , vmRunInThisCtx      ],
 		['/vm-create-context'            , vmCreateContext     ],
-		['/vm-script'                    , vmScript            ],
 		['/vm-script-run-in-context'     , vmScriptRunInCtx    ],
 		['/vm-script-run-in-new-context' , vmScriptRunInNewCtx ],
 		['/vm-script-run-in-this-context', vmScriptRunInThisCtx]

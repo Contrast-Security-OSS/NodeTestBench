@@ -109,22 +109,6 @@
 					</form>
 				</div>
 
-				<!-- ####  vm.Script  ####################### -->
-				<div>
-					<h3 class="sub-header"><code>vm.Script()</code></h3>
-					<form method="GET"
-								action="/ssjs-injection/query/unsafe/vm-script"
-								data-action="/ssjs-injection/${type}/${safe}/vm-script">
-						<div class="form-group">
-							<label for="ssjs-vm-script">
-								Source Code: <code>new vm.Script(`name = ${input};`);</code>
-							</label>
-							<input name="input" class="form-control" id="ssjs-vm-script" placeholder="" value="'PID: '+process.pid">
-						</div>
-						<button type="submit" class="btn btn-default">Submit</button>
-					</form>
-				</div>
-
 				<!-- ####  Script.runInContext ########### -->
 				<div>
 					<h3 class="sub-header"><code>Script.runInContext()</code></h3>
