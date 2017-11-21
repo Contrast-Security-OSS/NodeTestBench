@@ -1,128 +1,163 @@
 'use strict';
 
-const express = require('express');
+const F       = require('lodash/fp');
+const Express = require('express');
 const path    = require('path');
 const vm      = require('vm');
 
-const viewFilePath = path.resolve(__dirname, './views/index');
-const api = express.Router();
+module.exports = app => {
 
-api.get('/', function (req, res) {
-	res.render(viewFilePath);
-});
+	const api = Express.Router();
 
-api.use('/eval/unsafe', ( req, res ) => {
-	console.log('eval'); // eslint-disable-line
+	/* Prefix routes with rule ID */
+	app.use('/ssjs-injection', api);
 
-	const input = getInput(req);
-	const data = eval(`({ name: '${input}'})`);
+	/* ########################################################### */
+	/* ### Base index HTML page                                ### */
+	/* ########################################################### */
+	api.get('/', function (req, res) {
+		res.render(path.resolve(__dirname, './views/index'));
+	});
 
-	res.send('<xmp>' + data.name);
-});
+	/* ########################################################### */
+	/* ### Build API routes programmatically                  #### */
+	/* ########################################################### */
 
-api.use('/function/unsafe', ( req, res ) => {
-	console.log('Function'); // eslint-disable-line
+	/*  Routes:                                                    */
+	/*  /ssjs-injection/query/[un]safe/eval                  ,     */
+	/*  /ssjs-injection/query/[un]safe/function              ,     */
+	/*  /ssjs-injection/query/[un]safe/vm-create-context     ,     */
+	/*  /ssjs-injection/query/[un]safe/vm-run-in-context     ,     */
+	/*  /ssjs-injection/query/[un]safe/vm-run-in-new-context , ... */
 
-	const input = getInput(req);
-	const data = Function(`return { name: '${input}'};`)();
-	res.send('<xmp>' + data.name);
-});
+	const inputTypes  = ['body', 'cookies', 'headers', 'params', 'query'];
+	const inputSegmentLookup = {
+		body    : '/body',
+		cookies : '/cookies',
+		headers : '/headers',
+		params  : '/url-params',
+		query   : '/query'
+	};
 
-api.use('/vm-run-in-context/unsafe', ( req, res ) => {
-	console.log('vm.runInContext'); // eslint-disable-line
+	const makeRouteHandlers = ( sinkSegment, handle ) => {
+		inputTypes.forEach(type => {
+			const dataPath = `${type}.input`;
+			const inputSegment = inputSegmentLookup[type];
 
-	const input = getInput(req);
-	const sb   = { name: '', process };
-	const ctx  = vm.createContext(sb);
-	vm.runInContext(`name = ${input};`, ctx);
-	
-	res.send('<xmp>' + sb.name);
-});
+			/* Safe */
+			api.use(`${inputSegment}/safe${sinkSegment}`, ( req, res ) => {
+				return F.compose([
+					result => res.send(result),
+					input => tryCatch(() => handle(input))
+				])('"Safe and trusted"');
+			});
 
-api.use('/vm-run-in-new-context/unsafe', ( req, res ) => {
-	console.log('vm.runInNewContext'); // eslint-disable-line
+			/* Unsafe */
+			api.use(`${inputSegment}/unsafe${sinkSegment}`, ( req, res ) => {
+				return F.compose([
+					result => res.send(result),
+					input => tryCatch(() => handle(input)),
+					input => input.toString(),
+					F.path(dataPath),
+				])(req);
+			});
 
-	const input = getInput(req);
-	const sb   = { name: '', process };
-	vm.runInNewContext(`name = ${input};`, sb);
-	
-	res.send('<xmp>' + sb.name);
-});
+		});
+	};
 
-api.use('/vm-run-in-this-context/unsafe', ( req, res ) => {
-	console.log('vm.runInThisContext'); // eslint-disable-line
+	const tryCatch = block => {
+		try {
+			return block(); }
+		catch (error) {
+			return [error.message, error.stack].join('\n'); }
+	};
 
-	const input = getInput(req);
-	global.name = '';
-	vm.runInThisContext(`name = ${input};`);
-	res.send('<xmp>' + global.name);
+	const _Function = input => {
+		return Function(input)();
+	};
 
-	delete global.name;
-});
+	const vmRunInCtx = input => {
+		const sb  = { value: '', process };
+		const ctx = vm.createContext(sb);
+		vm.runInContext(`value = ${input};`, ctx);
 
-api.use('/vm-create-context/unsafe', ( req, res ) => {
-	console.log('vm.createContext'); // eslint-disable-line
+		return sb.value;
+	};
 
-	const input = getInput(req);
-	const sb = { name: input, process };
-	const ctx = vm.createContext(sb);
-	vm.runInContext('name = "matt " + name;', ctx);
+	const vmRunInNewCtx = input => {
+		const sb = { value: '', process };
+		vm.runInNewContext(`value = ${input};`, sb);
 
-	res.send('<xmp>' + sb.name);
-});
+		return sb.value;
+	};
 
-api.use('/vm-script/unsafe', ( req, res ) => {
-	console.log('vm.Script.runInContext'); // eslint-disable-line
+	const vmRunInThisCtx = input => {
+		const epoch = new Date().getTime();
+		const name = `value${epoch}`;
 
-	const input = getInput(req);
-	const sb = { name: '', process };
-	const script = new vm.Script(`name = ${input};`);
-	script.runInNewContext(sb);
+		global[name] = '';
 
-	res.send('<xmp>' + sb.name);
-});
+		vm.runInThisContext(`${name} = ${input};`);
+		setTimeout(() => { delete global[name]; }, 1000);
 
-api.use('/vm-script-run-in-context/unsafe', ( req, res ) => {
-	console.log('vm.Script.runInContext'); // eslint-disable-line
+		return global[name];
+	};
 
-	const input = getInput(req);
-	const sb = { name: '', process };
-	const ctx = vm.createContext(sb);
-	const script = new vm.Script(`name = ${input};`);
+	const vmCreateContext = input => {
+		throw new Error('Not implemented.');
+	};
 
-	script.runInContext(ctx);
+	const vmScript = input => {
+		const sb = { value: '', process };
+		const script = new vm.Script(`value = ${input};`);
+		script.runInNewContext(sb);
 
-	res.send('<xmp>' + sb.name);
-});
+		return sb.value;
+	};
 
-api.use('/vm-script-run-in-new-context/unsafe', ( req, res ) => {
-	console.log('vm.Script.runInNewContext'); // eslint-disable-line
+	const vmScriptRunInCtx = input => {
+		const sb = { value: '', process };
+		const ctx = vm.createContext(sb);
+		const script = new vm.Script(`value = ${input};`);
+		script.runInNewContext(ctx);
 
-	const input = getInput(req);
-	const sb = { name: '', process };
-	new vm.Script(`name = ${input};`).runInNewContext(sb);
+		return sb.value;
+	};
 
-	res.send('<xmp>' + sb.name);
-});
+	const vmScriptRunInNewCtx = input => {
+		const sb = { value: '', process };
+		const script = new vm.Script(`value = ${input};`);
+		script.runInNewContext(sb);
 
-api.use('/vm-script-run-in-this-context/unsafe', ( req, res ) => {
-	console.log('vm.Script.runInThisContext'); // eslint-disable-line
+		return sb.value;
+	};
 
-	const input = getInput(req);
-	global.name = '';
-	new vm.Script(`name = ${input};`).runInThisContext();
-	res.send('<xmp>' + global.name);
+	const vmScriptRunInThisCtx = input => {
+		const epoch = new Date().getTime();
+		const name = `value${epoch}`;
 
-	delete global.name;
-});
+		global[name] = '';
 
-module.exports = api;
+		const script = new vm.Script(`${name} = ${input};`);
+		script.runInThisContext();
+		setTimeout(() => { delete global[name]; }, 1000);
 
-function getInput ( req, key ) {
-	key = key || 'input';
-	return 0 <= [
-		'put',
-		'post'].indexOf(req.method.toLowerCase()) ?
-		req.body[key] :
-		req.query[key];
-}
+		return global[name];
+	};
+
+	[
+		['/eval'                         , eval                ],
+		['/function'                     , _Function           ],
+		['/vm-run-in-context'            , vmRunInCtx          ],
+		['/vm-run-in-new-context'        , vmRunInNewCtx       ],
+		['/vm-run-in-this-context'       , vmRunInThisCtx      ],
+		['/vm-create-context'            , vmCreateContext     ],
+		['/vm-script'                    , vmScript            ],
+		['/vm-script-run-in-context'     , vmScriptRunInCtx    ],
+		['/vm-script-run-in-new-context' , vmScriptRunInNewCtx ],
+		['/vm-script-run-in-this-context', vmScriptRunInThisCtx]
+	].forEach(
+		confArgs => makeRouteHandlers.apply(null, confArgs));
+
+	return api;
+};
