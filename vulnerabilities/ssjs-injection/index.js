@@ -30,7 +30,7 @@ module.exports = app => {
 	/*  /ssjs-injection/query/[un]safe/vm-run-in-context     ,     */
 	/*  /ssjs-injection/query/[un]safe/vm-run-in-new-context , ... */
 
-	const inputTypes  = ['body', 'cookies', 'headers', 'params', 'query'];
+	const inputTypes = ['body', 'cookies', 'headers', 'params', 'query'];
 	const inputSegmentLookup = {
 		body    : '/body',
 		cookies : '/cookies',
@@ -48,7 +48,7 @@ module.exports = app => {
 			api.use(`${inputSegment}/safe${sinkSegment}`, ( req, res ) => {
 				return F.compose([
 					result => res.send(result),
-					input => tryCatch(() => handle(input))
+					handle
 				])('"Safe and trusted"');
 			});
 
@@ -56,8 +56,7 @@ module.exports = app => {
 			api.use(`${inputSegment}/unsafe${sinkSegment}`, ( req, res ) => {
 				return F.compose([
 					result => res.send(result),
-					input => tryCatch(() => handle(input)),
-					input => input.toString(),
+					handle,
 					F.path(dataPath),
 				])(req);
 			});
@@ -65,11 +64,8 @@ module.exports = app => {
 		});
 	};
 
-	const tryCatch = block => {
-		try {
-			return block(); }
-		catch (error) {
-			return [error.message, error.stack].join('\n'); }
+	const _eval = input => {
+		return eval("'" + input + "'");
 	};
 
 	const _Function = input => {
@@ -138,7 +134,7 @@ module.exports = app => {
 	};
 
 	[
-		['/eval'                         , eval                ],
+		['/eval'                         , _eval               ],
 		['/function'                     , _Function           ],
 		['/vm-run-in-context'            , vmRunInCtx          ],
 		['/vm-run-in-new-context'        , vmRunInNewCtx       ],
