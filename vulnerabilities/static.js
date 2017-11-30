@@ -19,17 +19,17 @@ var config = {
 /* hardcoded-key  should trigger on lines 22, 25, 28, 29, 32, 34 */
 
 // VariableDeclarator
-var variabledec_key = 'wubalubadubdub';
+var variabledec_des = 'wubalubadubdub';
 // AssignmentExpression
-var assignment_key = '';
-assignment_key = 'wubalubadubdub';
+var assignment_aes = '';
+assignment_aes = 'wubalubadubdub';
 // AssignmentExpression with ObjectExpression
 var conf = {};
-conf.key = 'wubalubadubdub'
+conf.blowfish = 'wubalubadubdub'
 conf['iv'] = 'wubalubadubdub';
 // ObjectExpression
 var config = {
-	key: 'wubalubadubdub',
+	secret: 'wubalubadubdub',
 	// with Property literal
 	'iv': 'wubalubadubdub'
 }
