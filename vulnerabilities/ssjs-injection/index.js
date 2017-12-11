@@ -45,17 +45,17 @@ module.exports = app => {
 			const inputSegment = inputSegmentLookup[type];
 
 			/* Safe */
-			api.use(`${inputSegment}/safe${sinkSegment}`, ( req, res ) => {
+			api.all(`${inputSegment}/safe${sinkSegment}`, ( req, res ) => {
 				return F.compose([
-					result => res.send(result),
+					result => res.send((result || '').toString()),
 					handle
 				])('"Safe and trusted"');
 			});
 
 			/* Unsafe */
-			api.use(`${inputSegment}/unsafe${sinkSegment}`, ( req, res ) => {
+			api.all(`${inputSegment}/unsafe${sinkSegment}`, ( req, res ) => {
 				return F.compose([
-					result => res.send(result),
+					result => res.send((result || '').toString()),
 					handle,
 					F.path(dataPath),
 				])(req);
@@ -65,7 +65,7 @@ module.exports = app => {
 	};
 
 	const _eval = input => {
-		return eval("'" + input + "'");
+		return eval(input.toString());
 	};
 
 	const _Function = input => {
