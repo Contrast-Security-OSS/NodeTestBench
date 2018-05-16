@@ -18,6 +18,8 @@
     "hooker": "^0.2.3",
     "lodash": "^4.17.4",
     "mysql": "^2.10.2",
+    "newrelic": "^4.1.1",
+    "node-gyp": "^3.6.2",
     "node-serialize": "0.0.4",
     "pem": "^1.12.3"
   }

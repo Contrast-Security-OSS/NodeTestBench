@@ -1,5 +1,5 @@
 'use strict';
-
+require('newrelic')
 const start = Date.now();
 const express = require('express');
 const bodyParser = require('body-parser');
