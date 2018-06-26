@@ -13,7 +13,7 @@ function makeRouteParameters(method, path, type, safe) {
 	return {
 		method,
 		path,
-		handler: baseHandler.bind(this, type, safe),
+		handler: baseHandler.bind(this, type, safe)
 	};
 }
 

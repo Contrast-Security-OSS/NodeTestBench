@@ -11,7 +11,6 @@ const pem = require('pem');
 require('./vulnerabilities/static');
 
 const app = express();
-
 app.use('/assets', express.static('public'));
 //app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
@@ -32,7 +31,7 @@ app.use('/header-injection', require('./vulnerabilities/header-injection/'));
 app.use('/csp-header-insecure', require('./vulnerabilities/csp-header-insecure'));
 app.use('/config', require('./vulnerabilities/config/'));
 app.use('/serialization', require('./vulnerabilities/serialization'));
-app.use(require('./vulnerabilities/ssjs-injection')(app));
+app.use('/ssjs-injection', require('./vulnerabilities/ssjs-injection'));
 
 app.get('/', function (req, res) {
 	res.render('pages/index');
