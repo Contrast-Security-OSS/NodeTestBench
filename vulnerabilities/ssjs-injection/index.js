@@ -73,30 +73,42 @@ module.exports = app => {
 	};
 
 	const vmRunInCtx = input => {
+		try {
 		const sb  = { value: '', process };
 		const ctx = vm.createContext(sb);
 		vm.runInContext(`value = ${input};`, ctx);
 
 		return sb.value;
+		} catch(e) {
+			return;
+		}
 	};
 
 	const vmRunInNewCtx = input => {
+		try {
 		const sb = { value: '', process };
 		vm.runInNewContext(`value = ${input};`, sb);
 
 		return sb.value;
+		} catch(e) {
+			return;
+		}
 	};
 
 	const vmRunInThisCtx = input => {
+		try {
 		const epoch = new Date().getTime();
 		const name = `value${epoch}`;
 
 		global[name] = '';
 
 		vm.runInThisContext(`${name} = ${input};`);
-		setTimeout(() => { delete global[name]; }, 1000);
+		setTimeout(function() { delete global[name]; }, 1000);
 
 		return global[name];
+		} catch(e) {
+			return;
+		}
 	};
 
 	const vmCreateContext = input => {
@@ -104,23 +116,32 @@ module.exports = app => {
 	};
 
 	const vmScriptRunInCtx = input => {
+		try {
 		const sb = { value: '', process };
 		const ctx = vm.createContext(sb);
 		const script = new vm.Script(`value = ${input};`);
 		script.runInContext(ctx);
 
 		return sb.value;
+		} catch(e) {
+			return;
+		}
 	};
 
 	const vmScriptRunInNewCtx = input => {
+		try {
 		const sb = { value: '', process };
 		const script = new vm.Script(`value = ${input};`);
 		script.runInNewContext(sb);
 
 		return sb.value;
+		} catch(e) {
+			return;
+		}
 	};
 
 	const vmScriptRunInThisCtx = input => {
+		try {
 		const epoch = new Date().getTime();
 		const name = `value${epoch}`;
 
@@ -128,9 +149,12 @@ module.exports = app => {
 
 		const script = new vm.Script(`${name} = ${input};`);
 		script.runInThisContext();
-		setTimeout(() => { delete global[name]; }, 1000);
+		setTimeout(function() { delete global[name]; }, 1000);
 
 		return global[name];
+		} catch(e) {
+			return;
+		}
 	};
 
 	[
