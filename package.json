@@ -16,6 +16,7 @@
     "ejs": "^2.3.4",
     "express": "^4.13.3",
     "hooker": "^0.2.3",
+    "libxmljs": "^0.19.1",
     "lodash": "^4.17.4",
     "mysql": "^2.10.2",
     "node-serialize": "0.0.4",
