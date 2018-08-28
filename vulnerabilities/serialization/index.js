@@ -37,6 +37,17 @@ module.exports = (function ( router ) {
 			res.redirect('/serialization/node-serialize');
 	});
 
+	router.get('/node-serialize/unserialize', function (req, res) {
+		var input = req.query.input;
+		try {
+			var parsed = unserialize(input);
+			res.send(parsed);
+		}
+		catch (e) {
+			res.send('');
+		}
+	});
+
 	// 404 catch-all
 	router.use(function ( _, res ) {
 		return four04(res);
