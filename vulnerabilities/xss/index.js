@@ -25,6 +25,15 @@ module.exports = (function() {
 		res.render('../vulnerabilities/xss/views/index');
 	});
 
+	api.post('/header_test', function(req, res) {
+		res.json(
+			{
+				'Accept-Language': req.get('Accept-Language'),
+				'body': '<html><body><p>Hello,World</p></body></html>'
+			}
+		)
+	});
+
 	const routeParams = {
 		query:      makeRouteParameters('GET' , '/query'            , 'query'  , false),
 		querySafe:  makeRouteParameters('GET' , '/querySafe'        , 'query'  , true),
