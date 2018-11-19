@@ -1,0 +1,25 @@
+ <% include ../../../views/partials/header %>
+	  
+		  
+		 <h1 class="page-header">Querystring Typecheck (XSS)</h1>
+		  		  
+		  <div class="row">
+		  	<div class="col-xs-12 col-sm-6" style="padding-bottom: 30px;">
+				<h4 class="sub-header">querystring.stringify()</h4>
+				<form method="GET" action="/typecheck/querystring/stringify" target="_blank">
+				  <div class="form-group">
+				    <input name="input" class="form-control" id="exampleInputEmail1" placeholder="" value="asdf">
+				  </div>
+				  <button type="submit" class="btn btn-default">Submit</button>
+				</form>
+                                <h4 class="sub-header">querystring.parse()</h4>
+				<form method="GET" action="/typecheck/querystring/parse" target="_blank">
+				  <div class="form-group">
+				    <input name="input" class="form-control" id="exampleInputEmail1" placeholder="" value="abcd">
+				  </div>
+				  <button type="submit" class="btn btn-default">Submit</button>
+				</form>
+			</div>
+	  	  </div>
+		  
+ <% include ../../../views/partials/footer %>

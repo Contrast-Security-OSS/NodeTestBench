@@ -1,0 +1,53 @@
+ <% include ../../../views/partials/header %>
+	  
+		  
+		 <h1 class="page-header">Stream Typecheck (XSS)</h1>
+		  		  
+		  <div class="row">
+		  	<div class="col-xs-12 col-sm-6" style="padding-bottom: 30px;">
+				<h4 class="sub-header">readableStream.push()</h4>
+				<form method="GET" action="/typecheck/stream/readable/push" target="_blank">
+				  <div class="form-group">
+				    <input name="input" class="form-control" id="exampleInputEmail1" placeholder="" value="asdf">
+				  </div>
+				  <button type="submit" class="btn btn-default">Submit</button>
+				</form>
+                                <h4 class="sub-header">writableStream.write()</h4>
+				<form method="GET" action="/typecheck/stream/writable/write" target="_blank">
+				  <div class="form-group">
+				    <input name="input" class="form-control" id="exampleInputEmail1" placeholder="" value="asdf">
+				  </div>
+				  <button type="submit" class="btn btn-default">Submit</button>
+				</form>
+                                <h4 class="sub-header">duplex.push()</h4>
+				<form method="GET" action="/typecheck/stream/duplex/push" target="_blank">
+				  <div class="form-group">
+				    <input name="input" class="form-control" id="exampleInputEmail1" placeholder="" value="asdf">
+				  </div>
+				  <button type="submit" class="btn btn-default">Submit</button>
+				</form>
+                                <h4 class="sub-header">duplex.write()</h4>
+				<form method="GET" action="/typecheck/stream/duplex/write" target="_blank">
+				  <div class="form-group">
+				    <input name="input" class="form-control" id="exampleInputEmail1" placeholder="" value="asdf">
+				  </div>
+				  <button type="submit" class="btn btn-default">Submit</button>
+				</form>
+                                <h4 class="sub-header">transform.push()</h4>
+				<form method="GET" action="/typecheck/stream/transform/push" target="_blank">
+				  <div class="form-group">
+				    <input name="input" class="form-control" id="exampleInputEmail1" placeholder="" value="asdf">
+				  </div>
+				  <button type="submit" class="btn btn-default">Submit</button>
+				</form>
+                                <h4 class="sub-header">transform.write()</h4>
+				<form method="GET" action="/typecheck/stream/transform/write" target="_blank">
+				  <div class="form-group">
+				    <input name="input" class="form-control" id="exampleInputEmail1" placeholder="" value="asdf">
+				  </div>
+				  <button type="submit" class="btn btn-default">Submit</button>
+				</form>
+			</div>
+	  	  </div>
+		  
+ <% include ../../../views/partials/footer %>

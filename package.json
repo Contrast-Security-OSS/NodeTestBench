@@ -22,6 +22,7 @@
     "mysql": "^2.10.2",
     "node-serialize": "0.0.4",
     "pem": "^1.12.3",
+    "sqlite3": "^4.0.4",
     "stealthy-require": "^1.1.1"
   }
 }
