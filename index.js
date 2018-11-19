@@ -34,6 +34,7 @@ app.use('/config', require('./vulnerabilities/config/'));
 app.use('/serialization', require('./vulnerabilities/serialization'));
 app.use('/ssjs-injection', require('./vulnerabilities/ssjs-injection'));
 app.use('/xxe', require('./vulnerabilities/xxe'));
+app.use('/stealthy-require', require('./vulnerabilities/stealthy-require/'));
 
 app.get('/', function (req, res) {
 	res.render('pages/index');

@@ -20,6 +20,7 @@
     "lodash": "^4.17.4",
     "mysql": "^2.10.2",
     "node-serialize": "0.0.4",
-    "pem": "^1.12.3"
+    "pem": "^1.12.3",
+    "stealthy-require": "^1.1.1"
   }
 }
