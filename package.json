@@ -18,6 +18,7 @@
     "hooker": "^0.2.3",
     "libxmljs": "^0.19.1",
     "lodash": "^4.17.4",
+    "mongoose": "^5.3.12",
     "mysql": "^2.10.2",
     "node-serialize": "0.0.4",
     "pem": "^1.12.3",
