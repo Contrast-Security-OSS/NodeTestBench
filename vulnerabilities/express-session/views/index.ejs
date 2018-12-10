@@ -1,0 +1,17 @@
+ <% include ../../../views/partials/header %>
+		 <h1 class="page-header">express-session</h1>
+
+		  <div class="row" style="min-height: 200px;">
+		  	<div class="col-xs-12 col-sm-6" style="padding-bottom: 30px;">
+				<h4 class="sub-header">By going to this route you are now authenticated.</h4>
+     				<h4 class="sub-header">Verify session with XSS.</h4>
+				<form method="GET" action="/express-session/xss" target="_blank">
+				  <div class="form-group">
+				    <input name="input" class="form-control" id="exampleInputEmail1" value="asdf">
+				  </div>
+				  <button type="submit" class="btn btn-default">Submit</button>
+				</form>
+		  	</div>
+	  	  </div>
+		  
+ <% include ../../../views/partials/footer %>
