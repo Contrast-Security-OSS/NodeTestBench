@@ -36,6 +36,8 @@ app.use('/ssjs-injection', require('./vulnerabilities/ssjs-injection'));
 app.use('/xxe', require('./vulnerabilities/xxe'));
 app.use('/mongoose', require('./vulnerabilities/mongoose'));
 app.use('/typecheck', require('./vulnerabilities/typecheck'));
+app.use('/mongoose', require('./vulnerabilities/mongoose'));
+app.use('/express-session', require('./vulnerabilities/express-session'));
 
 app.get('/', function (req, res) {
 	res.render('pages/index');
