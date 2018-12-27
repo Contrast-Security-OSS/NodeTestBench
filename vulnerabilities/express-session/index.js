@@ -11,7 +11,6 @@ api.get('/', (req, res) => {
 // verify that the session maintained context
 api.get('/xss', (req, res) => {
   if (req.session._canary) {
-    console.log(req.session._canary);
     res.send(req.query.input);
   } else {
     res.sendStatus(401);

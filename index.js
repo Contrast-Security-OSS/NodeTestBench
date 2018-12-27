@@ -34,6 +34,7 @@ app.use('/config', require('./vulnerabilities/config/'));
 app.use('/serialization', require('./vulnerabilities/serialization'));
 app.use('/ssjs-injection', require('./vulnerabilities/ssjs-injection'));
 app.use('/xxe', require('./vulnerabilities/xxe'));
+app.use('/mongoose', require('./vulnerabilities/mongoose'));
 app.use('/typecheck', require('./vulnerabilities/typecheck'));
 app.use('/mongoose', require('./vulnerabilities/mongoose'));
 app.use('/express-session', require('./vulnerabilities/express-session'));
