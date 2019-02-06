@@ -6,11 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "contrast": "DEBUG=contrast:* node-contrast index.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "nodemon -e js,ejs index.js"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "aws-sdk": "^2.397.0",
     "body-parser": "^1.14.2",
     "cookie-parser": "^1.4.3",
     "ejs": "^2.3.4",
@@ -25,5 +27,8 @@
     "pem": "^1.12.3",
     "sqlite3": "^4.0.4",
     "stealthy-require": "^1.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
   }
 }

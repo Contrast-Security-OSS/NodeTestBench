@@ -38,6 +38,7 @@ app.use('/mongoose', require('./vulnerabilities/mongoose'));
 app.use('/typecheck', require('./vulnerabilities/typecheck'));
 app.use('/mongoose', require('./vulnerabilities/mongoose'));
 app.use('/express-session', require('./vulnerabilities/express-session'));
+app.use('/ddb', require('./vulnerabilities/dynamodb'));
 
 app.get('/', function (req, res) {
 	res.render('pages/index');
