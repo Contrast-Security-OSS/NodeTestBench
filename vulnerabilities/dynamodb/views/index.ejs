@@ -6,7 +6,7 @@
 		  <div class="row">
 		  	<div class="col-xs-12 col-sm-6" style="padding-bottom: 30px;">
           <h4 class="sub-header">DynamoDB Document Client</h4>
-          <% calls.forEach(function(call) { %>
+          <% docCalls.forEach(function(call) { %>
           <form method="POST" action="/ddb<%= call.endpoint %>" target="_blank">
               <div class="form-group">
                 <label><%= call.name %></label>
@@ -20,13 +20,17 @@
         </div>
 		  	<div class="col-xs-12 col-sm-6" style="padding-bottom: 30px;">
   				<h4 class="sub-header">DynamoDB Client</h4>
-  				<form method="POST" action="/ddb/getItem" target="_blank">
-  				  <div class="form-group">
-  				    <label>getItem()</label>
-  				    <input name="input" class="form-control" placeholder="" value="woot">
-  				  </div>
-  				  <button type="submit" class="btn btn-default">Submit</button>
-          </form>
+          <% calls.forEach(function(call) { %>
+          <form method="POST" action="/ddb<%= call.endpoint %>" target="_blank">
+              <div class="form-group">
+                <label><%= call.name %></label>
+                <% call.fields.forEach(function(field) {%>
+                  <input name="<%= field.name %>" class="form-control" placeholder="<%= field.placeholder %>" value="">
+                <% }); %>
+              </div>
+              <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+          <% }); %>
         </div>
 			</div>
 
