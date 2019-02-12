@@ -251,5 +251,5 @@ GitHub.sublime-settings
 tmtags
 
 # node-agent logs
-contrast-*.log
+node-contrast-*.log
 security-*.log
