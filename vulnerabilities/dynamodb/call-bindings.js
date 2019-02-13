@@ -1,3 +1,5 @@
+'use strict';
+const _ = require('lodash');
 
 const docCalls = [
   {
@@ -132,7 +134,8 @@ module.exports.docCalls = docCalls;
 
 
 // swapping /doc<Route> for /client<Route>
-const calls = docCalls.map(({ endpoint, ...rest}) => {
-  return { ...rest, endpoint: endpoint.replace('doc', 'client') };
+const calls = _.cloneDeep(docCalls).map((keys) => {
+  keys.endpoint = keys.endpoint.replace('doc', 'client');
+  return keys;
 });
 module.exports.calls = calls;

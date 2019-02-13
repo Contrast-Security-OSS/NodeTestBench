@@ -249,3 +249,7 @@ GitHub.sublime-settings
 *.tmproj
 *.tmproject
 tmtags
+
+# node-agent logs
+node-contrast-*.log
+security-*.log

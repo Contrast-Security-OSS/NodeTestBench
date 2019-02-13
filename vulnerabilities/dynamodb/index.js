@@ -83,29 +83,27 @@ api
     }});
   })
   .post('/clientPutItem', (req, res) => {
-    const { id, ...data} = req.body;
-    const keys = _.mapValues(data, (value) => ({ S: value }));
+    const Item = _.mapValues(req.body, (value) => ({ S: value }));
     return callDb({ req, res, method: 'putItem', params: {
-      Item: {
-        id: { S: id },
-        ...keys
-      }
+      Item
     }});
   })
   .post('/clientTransactWrite', (req, res) => {
-    const { id, ...data } = req.body;
-    const keys = _.mapValues(data, (value) => ({ S: value }));
-    const ids = id.split(',');
-    return callDb({ req, res, method: 'transactWriteItems', params: {
-      TransactItems: ids.map((id) => ({
+    const ids = req.body.id.split(',');
+    delete req.body.id;
+
+    const TransactItems = ids.map((id) => {
+      const obj = {
         Put: {
           TableName: TABLE,
-          Item: {
-            id: { S: id },
-            ...keys
-          }
+          Item: _.mapValues(req.body, (value) => ({ S: value }))
         }
-      }))
+      };
+      obj.Put.Item.id = { S: id };
+      return obj;
+    });
+    return callDb({ req, res, method: 'transactWriteItems', params: {
+      TransactItems
     }});
   })
   .post('/clientUpdateItem', (req, res) => {
@@ -135,8 +133,8 @@ api
     }});
   })
   .post('/clientBatchWrite', (req, res) => {
-    const { id, deleteId, ...data } = req.body;
-    const keys = _.mapValues(data, (value) => ({ S: value }));
+    const deleteId = req.body.deleteId;
+    delete req.body.deleteId;
     const params = {
       RequestItems: {
         [TABLE]: []
@@ -151,13 +149,11 @@ api
       });
     }
 
-    if (id) {
+    if (req.body.id) {
+      const Item = _.mapValues(req.body, (value) => ({ S: value }));
       params.RequestItems[TABLE].push({
         PutRequest: {
-          Item: {
-            id: { S: id },
-            ...keys
-          }
+          Item
         }
       });
     }
@@ -206,27 +202,24 @@ api
     }});
   })
   .post('/docPutItem', (req, res) => {
-    const { id, ...data} = req.body;
     return callDb({ docClient: true, req, res, method: 'put', params: {
-      Item: {
-        id,
-        ...data
-      }
+      Item: req.body
     }});
   })
   .post('/docTransactWrite', (req, res) => {
-    const { id, ...data } = req.body;
-    const ids = id.split(',');
+    const ids = req.body.id.split(',');
+    delete req.body.id;
     return callDb({ docClient: true, req, res, method: 'transactWrite', params: {
-      TransactItems: ids.map((id) => ({
-        Put: {
-          TableName: TABLE,
-          Item: {
-            id,
-            ...data
+      TransactItems: ids.map((id) => {
+        const obj = {
+          Put: {
+            TableName: TABLE,
+            Item: _.cloneDeep(req.body)
           }
-        }
-      }))
+        };
+        obj.Put.Item.id = id;
+        return obj;
+      })
     }});
   })
   .post('/docUpdateItem', (req, res) => {
@@ -256,7 +249,8 @@ api
     }});
   })
   .post('/docBatchWrite', (req, res) => {
-    const { id, deleteId, ...data } = req.body;
+    const deleteId = req.body.deleteId;
+    delete req.body.deleteId;
     const params = {
       RequestItems: {
         [TABLE]: []
@@ -271,13 +265,10 @@ api
       });
     }
 
-    if (id) {
+    if (req.body.id) {
       params.RequestItems[TABLE].push({
         PutRequest: {
-          Item: {
-            id,
-            ...data
-          }
+          Item: req.body
         }
       });
     }
