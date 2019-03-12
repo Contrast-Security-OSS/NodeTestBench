@@ -1,13 +1,13 @@
  <% include ../../../views/partials/header %>
-	  
-		  
+
+
 		  <% include header %>
-		  
+
 		  <div class="row">
 		  	<div class="col-xs-12 col-sm-6" style="padding-bottom: 30px;">
 				<h4 class="sub-header">Reflected XSS Query String</h4>
 				<p>
-					<a href="/xss_test/query_string?input=<script>alert(1)%3B<%%2Fscript>" target="_blank">/xss_test/query_string?input=&lt;script&gt;alert(1);&lt;/script&gt;</a>
+					<a href="/xss_test/query?input=<script>alert(1)%3B<%%2Fscript>" target="_blank">/xss_test/query?input=&lt;script&gt;alert(1);&lt;/script&gt;</a>
 				</p>
 			</div>
 	  	  </div>
@@ -15,15 +15,15 @@
 		  	<div class="col-xs-12 col-sm-6" style="padding-bottom: 30px;">
 				<h4 class="sub-header">Reflected XSS Query String (safe)</h4>
 				<p>
-					<a href="/xss_test/query_string_safe?input=<script>alert(1)%3B<%%2Fscript>" target="_blank">/xss_test/query_string?input=&lt;script&gt;alert(1);&lt;/script&gt;</a>
+					<a href="/xss_test/querySafe?input=<script>alert(1)%3B<%%2Fscript>" target="_blank">/xss_test/query?input=&lt;script&gt;alert(1);&lt;/script&gt;</a>
 				</p>
 			</div>
 	  	  </div>
-		  
+
 		  <div class="row">
 		  	<div class="col-xs-12 col-sm-6" style="padding-bottom: 30px;">
 				<h4 class="sub-header">Reflected XSS Form Post</h4>
-				<form method="POST" action="/xss_test/xss_post" target="_blank">
+				<form method="POST" action="/xss_test/post" target="_blank">
 				  <div class="form-group">
 				    <label for="exampleInputEmail1">Email address</label>
 				    <input name="input" class="form-control" id="exampleInputEmail1" placeholder="Email" value="&lt;script&gt;alert(1);&lt;/script&gt;">
@@ -35,7 +35,7 @@
 		  <div class="row">
 		  	<div class="col-xs-12 col-sm-6" style="padding-bottom: 30px;">
 				<h4 class="sub-header">Reflected XSS Form Post (safe)</h4>
-				<form method="POST" action="/xss_test/xss_post_safe" target="_blank">
+				<form method="POST" action="/xss_test/postSafe" target="_blank">
 				  <div class="form-group">
 				    <label for="exampleInputEmail1">Email address</label>
 				    <input name="input" class="form-control" id="exampleInputEmail1" placeholder="Email" value="&lt;script&gt;alert(1);&lt;/script&gt;">
@@ -44,12 +44,12 @@
 				</form>
 			</div>
 	  	  </div>
-		  
+
 		  <div class="row">
 		  	<div class="col-xs-12 col-sm-6">
 				<h4 class="sub-header">Reflected XSS Param Values</h4>
 				<p>
-					<a href="/xss_test/param_test/<script>alert(1)%3B<%%2Fscript>" target="_blank">/xss_test/param_test/&lt;script&gt;alert(1);&lt;/script&gt;</a>
+					<a href="/xss_test/param/<script>alert(1)%3B<%%2Fscript>" target="_blank">/xss_test/param/&lt;script&gt;alert(1);&lt;/script&gt;</a>
 				</p>
 			</div>
 	  	  </div>
@@ -57,9 +57,9 @@
 		  	<div class="col-xs-12 col-sm-6">
 				<h4 class="sub-header">Reflected XSS Param Values (safe)</h4>
 				<p>
-					<a href="/xss_test/param_test_safe/<script>alert(1)%3B<%%2Fscript>" target="_blank">/xss_test/param_test/&lt;script&gt;alert(1);&lt;/script&gt;</a>
+					<a href="/xss_test/paramSafe/<script>alert(1)%3B<%%2Fscript>" target="_blank">/xss_test/param/&lt;script&gt;alert(1);&lt;/script&gt;</a>
 				</p>
 			</div>
 	  	  </div>
-		  
+
  <% include ../../../views/partials/footer %>
