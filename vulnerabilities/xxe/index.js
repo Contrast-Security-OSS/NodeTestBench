@@ -32,12 +32,9 @@ api.post(['/safe', '/unsafe'], (req, res) => {
 		};
 	}
 
-	try {
-		const parsedXML = libxmljs.parseXmlString(ATTACK_XML, options);
-		res.send(parsedXML.toString());
-	} catch(error) {
-		res.status('400').send('Unable to process XML string');
-	}
+
+	const parsedXML = libxmljs.parseXmlString(ATTACK_XML, options);
+	res.send(parsedXML.toString());
 });
 
 module.exports = api;
