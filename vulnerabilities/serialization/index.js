@@ -39,13 +39,8 @@ module.exports = (function ( router ) {
 
 	router.get('/node-serialize/unserialize', function (req, res) {
 		var input = req.query.input;
-		try {
-			var parsed = unserialize(input);
-			res.send(parsed);
-		}
-		catch (e) {
-			res.send('');
-		}
+    var parsed = unserialize(input);
+    res.send(parsed);
 	});
 
 	// 404 catch-all
