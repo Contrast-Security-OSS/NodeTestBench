@@ -17,8 +17,8 @@
 								action="/ssjs-injection/query/unsafe/eval"
 								data-action="/ssjs-injection/${type}/${safe}/eval">
 						<div class="form-group">
-							<label for="ssjs-eval">Source Code: <code>eval("'" + input + "'");</code></label>
-							<input name="input" class="form-control" id="ssjs-eval" placeholder="" value="PID: ' + process.pid + '">
+							<label for="ssjs-eval">Source Code: <code>eval(input);</code></label>
+							<input name="input" class="form-control" id="ssjs-eval" placeholder="" value="'PID: '+process.pid">
 						</div>
 						<button type="submit" class="btn btn-default">Submit</button>
 					</form>
