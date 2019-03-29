@@ -41,7 +41,9 @@ app.use('/express-session', require('./vulnerabilities/express-session'));
 app.use('/ddb', require('./vulnerabilities/dynamodb'));
 
 app.get('/', function (req, res) {
-	res.render('pages/index');
+	res.render('pages/index', {
+    currentYear: new Date().getFullYear()
+  });
 });
 
 app.get('/quit', function(req, res) {
