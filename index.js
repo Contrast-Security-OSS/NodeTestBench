@@ -40,10 +40,11 @@ app.use('/mongoose', require('./vulnerabilities/mongoose'));
 app.use('/express-session', require('./vulnerabilities/express-session'));
 app.use('/ddb', require('./vulnerabilities/dynamodb'));
 
+// adding current year for footer to be up to date
+app.locals.currentYear = new Date().getFullYear();
+
 app.get('/', function (req, res) {
-	res.render('pages/index', {
-    currentYear: new Date().getFullYear()
-  });
+	res.render('pages/index');
 });
 
 app.get('/quit', function(req, res) {
