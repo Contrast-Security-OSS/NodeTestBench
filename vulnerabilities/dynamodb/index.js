@@ -1,3 +1,4 @@
+'use strict';
 const express = require('express');
 const api = express.Router();
 const AWS = require('aws-sdk');
