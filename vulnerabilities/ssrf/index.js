@@ -23,7 +23,7 @@ libs.forEach((lib) => {
     });
   });
 
-  router.post(`/{lib}/unsafe`, function(req, res, next) {
+  router.post(`/${lib}/unsafe`, function(req, res, next) {
     const url = createUnsafeUrl(req.body.input);
     return makeRequest(lib, url).then((data) => {
       res.send(data);
