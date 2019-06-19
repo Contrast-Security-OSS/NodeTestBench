@@ -5,15 +5,17 @@ const mongoose = require('mongoose');
 const _id = '750786cbcf7979d4ff131091';
 
 // ip for mongo.
-const CONNECTION_STRING = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/nodetestbench';
+const CONNECTION_STRING =
+  process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/nodetestbench';
 
 // connect to mongo.
-mongoose.connect(CONNECTION_STRING, {useNewUrlParser: true});
+mongoose.connect(CONNECTION_STRING, { useNewUrlParser: true });
 mongoose.connection.once('open', () => {
+  // eslint-disable-next-line no-console
   console.log(`Mongo connection open at ${CONNECTION_STRING}`);
 });
 
-const Test = mongoose.model('test', new mongoose.Schema({input: String}));
+const Test = mongoose.model('test', new mongoose.Schema({ input: String }));
 
 api
   .post('/deleteMany', (req, res) => {
@@ -59,13 +61,13 @@ api
     execWithDoc(Test, 'updateOne', req, res);
   })
   .get('/', (req, res) => {
-    res.render(__dirname + '/views/index');
+    res.render(`${__dirname}/views/index`);
   });
 
 module.exports = api;
 
 function exec(model, operation, req, res) {
-  const input = req.body.input;
+  const { input } = req.body;
   _exec(model, operation, [{ input, _id }], function(error, doc) {
     if (error) {
       res.status(500).send(error.message);
@@ -76,7 +78,7 @@ function exec(model, operation, req, res) {
 }
 
 function execWithDoc(model, operation, req, res) {
-  const input = req.body.input;
+  const { input } = req.body;
   _exec(model, operation, [{ input, _id }, { input }], function(error, doc) {
     if (error) {
       res.status(500).send(error.message);
@@ -87,5 +89,5 @@ function execWithDoc(model, operation, req, res) {
 }
 
 function _exec(model, operation, args, cb) {
-  return model[operation].apply(model, args).exec(cb);
+  return model[operation](...args).exec(cb);
 }

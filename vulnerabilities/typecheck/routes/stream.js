@@ -3,26 +3,24 @@ const express = require('express');
 const stream = require('stream');
 
 const push = (r, req, res) => {
-  const input = req.query.input;
+  const { input } = req.query;
 
   try {
     r.push(input);
     res.send(input);
   } catch (err) {
-    console.error(err);
-    res.send();
+    res.send(err);
   }
 };
 
 const write = (w, req, res) => {
-  const input = req.query.input;
+  const { input } = req.query;
 
   try {
     w.write(input);
     res.send(input);
   } catch (err) {
-    console.error(err);
-    res.send();
+    res.send(err);
   }
 };
 
@@ -58,10 +56,10 @@ transform.get('/write', write.bind(this, T));
 
 module.exports = (function() {
   'use strict';
-  var api = express.Router();
+  const api = express.Router();
 
   api.get('/', function(req, res) {
-    res.render(__dirname + '/../views/stream.ejs');
+    res.render(`${__dirname}/../views/stream.ejs`);
   });
 
   api.use('/readable', readable);

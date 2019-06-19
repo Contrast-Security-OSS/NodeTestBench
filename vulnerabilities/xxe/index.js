@@ -20,21 +20,20 @@ const ATTACK_XML = `
 api.get('/', (_, res) => res.render(view, { ATTACK_XML }));
 
 api.post(['/safe', '/unsafe'], (req, res) => {
-	let options;
+  let options;
 
-	if (/\/safe$/.test(req.url)) {
-		options = {
-			noent: false
-		};
-	} else {
-		options = {
-			noent: true
-		};
-	}
+  if (/\/safe$/.test(req.url)) {
+    options = {
+      noent: false
+    };
+  } else {
+    options = {
+      noent: true
+    };
+  }
 
-
-	const parsedXML = libxmljs.parseXmlString(ATTACK_XML, options);
-	res.send(parsedXML.toString());
+  const parsedXML = libxmljs.parseXmlString(ATTACK_XML, options);
+  res.send(parsedXML.toString());
 });
 
 module.exports = api;
