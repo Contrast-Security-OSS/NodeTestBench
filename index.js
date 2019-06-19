@@ -46,6 +46,7 @@ app.use('/mongoose', require('./vulnerabilities/mongoose'));
 app.use('/express-session', require('./vulnerabilities/express-session'));
 app.use('/ddb', require('./vulnerabilities/dynamodb'));
 app.use('/ssrf', require('./vulnerabilities/ssrf'));
+app.use('/unsafe-file-upload', require('./vulnerabilities/unsafe-file-upload'));
 
 // adding current year for footer to be up to date
 app.locals.currentYear = new Date().getFullYear();
