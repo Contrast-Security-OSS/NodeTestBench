@@ -29,26 +29,9 @@ libs.forEach((lib) => {
       res.send(data);
     });
   });
-
-  router.get(`/${lib}/safe`, function(req, res, next) {
-    const url = createSafeUrl(req.query.input);
-    return makeRequest(lib, url).then((data) => {
-      res.send(data);
-    });
-  });
-
-  router.post(`/${lib}/safe`, function(req, res, next) {
-    const url = createSafeUrl(req.body.input);
-    return makeRequest(lib, url).then((data) => {
-      res.send(data);
-    });
-  });
 });
 
 const createUnsafeUrl = (input) => `${EXAMPLE_URL}?q=${input}`;
-
-const createSafeUrl = (input) =>
-  `${EXAMPLE_URL}?q=${encodeURIComponent(input)}`;
 
 const makeRequest = function makeRequest(lib, url) {
   switch (lib) {
