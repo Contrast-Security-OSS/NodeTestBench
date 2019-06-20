@@ -16,14 +16,14 @@ router.get('/', function(req, res) {
 const libs = ['axios', 'bent', 'fetch', 'request', 'superagent'];
 
 libs.forEach((lib) => {
-  router.get(`/${lib}/unsafe`, function(req, res, next) {
+  router.get(`/${lib}/query/unsafe`, function(req, res, next) {
     const url = createUnsafeUrl(req.query.input);
     return makeRequest(lib, url).then((data) => {
       res.send(data);
     });
   });
 
-  router.post(`/${lib}/unsafe`, function(req, res, next) {
+  router.post(`/${lib}/body/unsafe`, function(req, res, next) {
     const url = createUnsafeUrl(req.body.input);
     return makeRequest(lib, url).then((data) => {
       res.send(data);
