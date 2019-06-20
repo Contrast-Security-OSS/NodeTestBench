@@ -7,11 +7,25 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "contrast": "DEBUG=contrast:* node-contrast index.js",
     "start": "node index.js",
-    "dev": "nodemon -e js,ejs index.js"
+    "dev": "nodemon -e js,ejs index.js",
+    "fix": "eslint . --fix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.js": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@contrast/test-bench-content": "^1.1.0",
+    "@contrast/test-bench-utils": "^1.0.0",
     "aws-sdk": "^2.397.0",
     "body-parser": "^1.14.2",
     "cookie-parser": "^1.4.3",
@@ -29,6 +43,11 @@
     "stealthy-require": "^1.1.1"
   },
   "devDependencies": {
-    "nodemon": "^1.18.9"
+    "@contrast/eslint-config": "^1.0.3",
+    "eslint": "^5.16.0",
+    "husky": "^2.4.1",
+    "lint-staged": "^8.2.1",
+    "nodemon": "^1.18.9",
+    "prettier": "^1.18.2"
   }
 }

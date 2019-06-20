@@ -2,7 +2,7 @@
 
 const crypto = require('crypto');
 const express = require('express');
-const Router = express.Router;
+const { Router } = express;
 
 const api = (module.exports = Router());
 
@@ -11,7 +11,7 @@ api.use(
   Router()
     .get('/ctor', (req, res) => {
       try {
-        const input = req.query.input;
+        const { input } = req.query;
         new crypto.Hmac('sha256', input);
         res.send(input);
       } catch (e) {
@@ -21,7 +21,7 @@ api.use(
 
     .get('/create', (req, res) => {
       try {
-        const input = req.query.input;
+        const { input } = req.query;
         crypto.createHmac('sha256', input);
         res.send(input);
       } catch (e) {
@@ -31,7 +31,7 @@ api.use(
 
     .get('/update', (req, res) => {
       try {
-        const input = req.query.input;
+        const { input } = req.query;
         const hmac = crypto.createHmac('sha256', 'cats_cats_cats');
         hmac.update(input);
         res.send(input);
@@ -40,7 +40,7 @@ api.use(
       }
     })
 
-    .get('/', (req, res)=> {
-      res.render(__dirname + '/../views/crypto.ejs');
+    .get('/', (req, res) => {
+      res.render(`${__dirname}/../views/crypto.ejs`);
     })
 );

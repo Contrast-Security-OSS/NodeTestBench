@@ -19,34 +19,42 @@ const docCalls = [
   {
     endpoint: '/docQuery',
     name: 'query by id',
-    fields: [{
-      name: 'id',
-      placeholder: 'Id to lookup'
-    }]
+    fields: [
+      {
+        name: 'id',
+        placeholder: 'Id to lookup'
+      }
+    ]
   },
   {
     endpoint: '/docGetItem',
     name: 'get',
-    fields: [{
-      name: 'id',
-      placeholder: 'Lookup Id'
-    }]
+    fields: [
+      {
+        name: 'id',
+        placeholder: 'Lookup Id'
+      }
+    ]
   },
   {
     endpoint: '/docBatchGet',
     name: 'batchGet',
-    fields: [{
-      name: 'id',
-      placeholder: 'Comma Delimited List of Ids'
-    }]
+    fields: [
+      {
+        name: 'id',
+        placeholder: 'Comma Delimited List of Ids'
+      }
+    ]
   },
   {
     endpoint: '/docTransactGet',
     name: 'transactGet(get multiple ids)',
-    fields: [{
-      name: 'id',
-      placeholder: 'Comma Delimited List of Ids'
-    }]
+    fields: [
+      {
+        name: 'id',
+        placeholder: 'Comma Delimited List of Ids'
+      }
+    ]
   },
   {
     endpoint: '/docPutItem',
@@ -77,7 +85,7 @@ const docCalls = [
       {
         name: 'key1',
         placeholder: 'attr1'
-      },
+      }
     ]
   },
   {
@@ -117,21 +125,22 @@ const docCalls = [
       {
         name: 'key2',
         placeholder: 'attr2'
-      },
+      }
     ]
   },
   {
     endpoint: '/docDeleteItem',
     name: 'delete',
-    fields: [{
-      name: 'id',
-      placeholder: 'Id to delete'
-    }]
+    fields: [
+      {
+        name: 'id',
+        placeholder: 'Id to delete'
+      }
+    ]
   }
 ];
 
 module.exports.docCalls = docCalls;
-
 
 // swapping /doc<Route> for /client<Route>
 const calls = _.cloneDeep(docCalls).map((keys) => {
