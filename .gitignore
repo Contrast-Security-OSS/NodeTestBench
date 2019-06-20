@@ -253,3 +253,6 @@ tmtags
 # node-agent logs
 node-contrast-*.log
 security-*.log
+
+# multi-part form uploads
+vulnerabilities/uploads
