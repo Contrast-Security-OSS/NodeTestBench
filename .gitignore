@@ -249,3 +249,11 @@ GitHub.sublime-settings
 *.tmproj
 *.tmproject
 tmtags
+
+#logs
+node-contrast*.log
+security*.log
+
+#upload folder
+vulnerabilities/uploads
+
