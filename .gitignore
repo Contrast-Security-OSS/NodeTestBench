@@ -253,6 +253,7 @@ tmtags
 #logs
 node-contrast*.log
 security*.log
+newrelic_agent.log
 
 #upload folder
 vulnerabilities/uploads
