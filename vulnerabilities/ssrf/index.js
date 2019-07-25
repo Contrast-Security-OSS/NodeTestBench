@@ -16,22 +16,20 @@ router.get('/', function(req, res) {
 const libs = ['axios', 'bent', 'fetch', 'request', 'superagent'];
 
 libs.forEach((lib) => {
-  router.get(`/${lib}/query/unsafe`, function(req, res, next) {
-    const url = createUnsafeUrl(req.query.input);
+  router.get(`/${lib}/query`, function(req, res, next) {
+    const url = `${EXAMPLE_URL}?q=${req.query.input}`;
     return makeRequest(lib, url).then((data) => {
       res.send(data);
     });
   });
 
-  router.post(`/${lib}/body/unsafe`, function(req, res, next) {
-    const url = createUnsafeUrl(req.body.input);
+  router.get(`/${lib}/path`, function(req, res, next) {
+    const url = `http://${req.query.input}`;
     return makeRequest(lib, url).then((data) => {
       res.send(data);
     });
   });
 });
-
-const createUnsafeUrl = (input) => `${EXAMPLE_URL}?q=${input}`;
 
 const makeRequest = function makeRequest(lib, url) {
   switch (lib) {
