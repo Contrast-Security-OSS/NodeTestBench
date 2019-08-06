@@ -1,26 +1,34 @@
-const express = require('express');
-const childProcess = require('child_process');
+'use strict';
+const exp = require('express');
+const {
+  sinks: { cmd_injection: cmdi },
+  routes: {
+    cmd_injection: { base, sinks }
+  },
+  frameworkMapping: { express },
+  utils: { buildUrls }
+} = require('@contrast/test-bench-utils');
 
 module.exports = (function() {
-  'use strict';
-  const api = express.Router();
+  const api = exp.Router();
+  const { method, key } = express.query;
+  const viewData = buildUrls({ sinks, key, baseUri: base });
 
   api.get('/', function(req, res) {
-    res.render('../vulnerabilities/command_injection/views/index');
+    res.render('../vulnerabilities/command_injection/views/index', {
+      viewData
+    });
   });
 
-  api.get('/childprocess_exec', function(req, res) {
-    // this should be tainted
-    const path = req.query.user_path;
+  viewData.forEach(({ uri, sink }) => {
+    api[method](`${uri}/safe`, (req, res) => {
+      res.send('SAFE');
+    });
 
-    const ls = 'ls -l ';
-
-    // propagation from path with concat of ls to new var cmd
-    const cmd = ls + path;
-
-    // trigger command injection
-    childProcess.exec(cmd, function(err, data) {
-      res.send(`<xmp>${data}`);
+    api[method](`${uri}/unsafe`, async (req, res) => {
+      const cmd = req[key].input;
+      const data = await cmdi[sink](cmd);
+      res.send(data.toString());
     });
   });
 

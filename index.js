@@ -11,6 +11,9 @@ const pem = require('pem');
 require('./vulnerabilities/static');
 
 const app = express();
+const {
+  routes: { cmd_injection }
+} = require('@contrast/test-bench-utils');
 
 app.use('/assets', express.static('public'));
 //app.use(bodyParser.json()); // for parsing application/json
@@ -22,7 +25,7 @@ app.set('view engine', 'ejs');
 app.use('/xss_test', require('./vulnerabilities/xss/'));
 app.use('/xss_objects', require('./vulnerabilities/xss/objects/'));
 app.use('/sqli', require('./vulnerabilities/sqli/'));
-app.use('/command_injection', require('./vulnerabilities/command_injection/'));
+app.use(cmd_injection.base, require('./vulnerabilities/command_injection/'));
 app.use('/unsafe_eval', require('./vulnerabilities/unsafe_eval/'));
 app.use('/crypto', require('./vulnerabilities/crypto/'));
 app.use('/parampollution', require('./vulnerabilities/parampollution/'));
