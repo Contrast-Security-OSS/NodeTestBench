@@ -1,38 +1,40 @@
-const express = require('express');
-const fs = require('fs');
+'use strict';
+const exp = require('express');
+const {
+  sinks: { path_traversal: fs },
+  routes: {
+    path_traversal: { base: baseUri, sinks }
+  },
+  frameworkMapping: { express },
+  utils: { buildUrls }
+} = require('@contrast/test-bench-utils');
 
 module.exports = (function() {
-  'use strict';
-  const api = express.Router();
+  const api = exp.Router();
+  const { method, key } = express.query;
+  const viewData = buildUrls({ sinks, key, baseUri });
 
   api.get('/', function(req, res) {
-    res.render('../vulnerabilities/path-traversal/views/index');
-  });
-
-  api.post('/readFile', function(req, res) {
-    const path = req.body.user_path;
-
-    fs.readFile(path, 'utf8', function(err, data) {
-      res.send(data);
+    res.render('../vulnerabilities/path-traversal/views/index', {
+      viewData
     });
   });
 
-  api.post('/readFile_safe', function(req, res) {
-    let path = req.body.user_path;
-    path = encodeURIComponent(path);
-
-    fs.readFile(path, 'utf8', function(err, data) {
-      if (err) res.send(err);
-      res.send(data);
+  viewData.forEach(({ uri, sink }) => {
+    api[method](`${uri}/no-op`, (req, res) => {
+      res.send('PROBE');
     });
-  });
 
-  api.post('/writeFile', function(req, res) {
-    const path = req.body.user_path;
+    api[method](`${uri}/safe`, async (req, res) => {
+      const path = encodeURIComponent(req[key].input);
+      const data = await fs[sink](path, true);
+      res.send(data.toString());
+    });
 
-    fs.writeFile(path, '', function(err) {
-      if (err) throw err;
-      res.send("It's saved!");
+    api[method](`${uri}/unsafe`, async (req, res) => {
+      const path = req[key].input;
+      const data = await fs[sink](path);
+      res.send(data.toString());
     });
   });
 
