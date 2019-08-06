@@ -1,51 +1,38 @@
 'use strict';
-const express = require('express');
-const router = express.Router();
+const exp = require('express');
+const router = exp.Router();
 const path = require('path');
 const {
+  routes: {
+    ssrf: { sinks }
+  },
+  frameworkMapping: { express },
   sinks: { ssrf }
 } = require('@contrast/test-bench-utils');
 const EXAMPLE_URL = 'http://www.example.com';
 
+const { method, key } = express.query;
 router.get('/', function(req, res) {
   res.render(path.resolve(__dirname, './views/index'), {
     requestUrl: 'http://www.example.com'
   });
 });
 
-const libs = ['axios', 'bent', 'fetch', 'request', 'superagent'];
-
-libs.forEach((lib) => {
-  router.get(`/${lib}/query/unsafe`, function(req, res, next) {
-    const url = createUnsafeUrl(req.query.input);
-    return makeRequest(lib, url).then((data) => {
+sinks.forEach((sink) => {
+  const lib = sink.toLowerCase();
+  router[method](`/${lib}/query`, function(req, res, next) {
+    const url = `${EXAMPLE_URL}?q=${req[key].input}`;
+    return ssrf[`make${sink}Request`](url).then((data) => {
       res.send(data);
     });
   });
 
-  router.post(`/${lib}/body/unsafe`, function(req, res, next) {
-    const url = createUnsafeUrl(req.body.input);
-    return makeRequest(lib, url).then((data) => {
+  router[method](`/${lib}/path`, function(req, res, next) {
+    const url = `http://${req[key].input}`;
+    return ssrf[`make${sink}Request`](url).then((data) => {
       res.send(data);
     });
   });
 });
-
-const createUnsafeUrl = (input) => `${EXAMPLE_URL}?q=${input}`;
-
-const makeRequest = function makeRequest(lib, url) {
-  switch (lib) {
-    case 'axios':
-      return ssrf.makeAxiosRequest(url);
-    case 'bent':
-      return ssrf.makeBentRequest(url);
-    case 'fetch':
-      return ssrf.makeFetchRequest(url);
-    case 'request':
-      return ssrf.makeRequestRequest(url);
-    case 'superagent':
-      return ssrf.makeSuperagentRequest(url);
-  }
-};
 
 module.exports = router;

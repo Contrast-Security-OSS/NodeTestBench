@@ -12,7 +12,7 @@ require('./vulnerabilities/static');
 
 const app = express();
 const {
-  routes: { cmd_injection }
+  routes: { cmd_injection, path_traversal, ssrf }
 } = require('@contrast/test-bench-utils');
 
 app.use('/assets', express.static('public'));
@@ -33,7 +33,7 @@ app.use(
   '/unvalidated-redirect',
   require('./vulnerabilities/unvalidated-redirect/')
 );
-app.use('/path-traversal', require('./vulnerabilities/path-traversal/'));
+app.use(path_traversal.base, require('./vulnerabilities/path-traversal/'));
 app.use('/header-injection', require('./vulnerabilities/header-injection/'));
 app.use(
   '/csp-header-insecure',
@@ -48,7 +48,7 @@ app.use('/typecheck', require('./vulnerabilities/typecheck'));
 app.use('/mongoose', require('./vulnerabilities/mongoose'));
 app.use('/express-session', require('./vulnerabilities/express-session'));
 app.use('/ddb', require('./vulnerabilities/dynamodb'));
-app.use('/ssrf', require('./vulnerabilities/ssrf'));
+app.use(ssrf.base, require('./vulnerabilities/ssrf'));
 app.use('/unsafe-file-upload', require('./vulnerabilities/unsafe-file-upload'));
 
 // adding current year for footer to be up to date
