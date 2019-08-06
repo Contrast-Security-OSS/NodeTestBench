@@ -12,7 +12,7 @@ require('./vulnerabilities/static');
 
 const app = express();
 const {
-  routes: { cmd_injection, path_traversal, ssrf }
+  routes: { cmd_injection, path_traversal, ssrf, ssjs }
 } = require('@contrast/test-bench-utils');
 
 app.use('/assets', express.static('public'));
@@ -41,7 +41,7 @@ app.use(
 );
 app.use('/config', require('./vulnerabilities/config/'));
 app.use('/serialization', require('./vulnerabilities/serialization'));
-app.use('/ssjs-injection', require('./vulnerabilities/ssjs-injection'));
+app.use(ssjs.base, require('./vulnerabilities/ssjs-injection'));
 app.use('/xxe', require('./vulnerabilities/xxe'));
 app.use('/mongoose', require('./vulnerabilities/mongoose'));
 app.use('/typecheck', require('./vulnerabilities/typecheck'));
