@@ -8,25 +8,22 @@ const http = require('http');
 const https = require('https');
 const pem = require('pem');
 
-require('./vulnerabilities/static');
-
 const app = express();
 const {
-  routes: { cmd_injection, path_traversal, ssrf, ssjs }
+  rules,
+  routes: { cmd_injection, path_traversal, ssrf, ssjs, unsafe_file_upload }
 } = require('@contrast/test-bench-utils');
+rules.static();
 
 app.use('/assets', express.static('public'));
-//app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'ejs');
 
 app.use('/xss_test', require('./vulnerabilities/xss/'));
-app.use('/xss_objects', require('./vulnerabilities/xss/objects/'));
 app.use('/sqli', require('./vulnerabilities/sqli/'));
 app.use(cmd_injection.base, require('./vulnerabilities/command_injection/'));
-app.use('/unsafe_eval', require('./vulnerabilities/unsafe_eval/'));
 app.use('/crypto', require('./vulnerabilities/crypto/'));
 app.use('/parampollution', require('./vulnerabilities/parampollution/'));
 app.use(
@@ -49,7 +46,10 @@ app.use('/mongoose', require('./vulnerabilities/mongoose'));
 app.use('/express-session', require('./vulnerabilities/express-session'));
 app.use('/ddb', require('./vulnerabilities/dynamodb'));
 app.use(ssrf.base, require('./vulnerabilities/ssrf'));
-app.use('/unsafe-file-upload', require('./vulnerabilities/unsafe-file-upload'));
+app.use(
+  unsafe_file_upload.base,
+  require('./vulnerabilities/unsafe-file-upload')
+);
 
 // adding current year for footer to be up to date
 app.locals.currentYear = new Date().getFullYear();
