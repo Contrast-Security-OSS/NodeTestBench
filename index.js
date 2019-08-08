@@ -2,6 +2,26 @@
 
 const start = Date.now();
 const express = require('express');
+/**
+ * This allows use to naively handle
+ * async controller requests without
+ * a catch handler that calls next
+ *
+ * Instead of:
+ * try {
+ *   const data = await asyncCall();
+ *   res.send(data.toString());
+ * } catch(err) {
+ *   next(err);
+ * }
+ *
+ * We can do:
+ *
+ * const data = await asyncCall();
+ * res.send(data.toString());
+ *
+ */
+require('express-async-errors');
 const bodyParser = require('body-parser');
 
 const http = require('http');
