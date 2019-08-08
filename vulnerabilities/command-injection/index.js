@@ -15,7 +15,7 @@ module.exports = (function() {
   const viewData = buildUrls({ sinks, key, baseUri: base });
 
   api.get('/', function(req, res) {
-    res.render('../vulnerabilities/command_injection/views/index', {
+    res.render('../vulnerabilities/command-injection/views/index', {
       viewData
     });
   });

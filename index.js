@@ -34,7 +34,7 @@ const {
   routes: {
     cmd_injection,
     path_traversal,
-    sqli,
+    sql_injection,
     ssjs,
     ssrf,
     unsafe_file_upload,
@@ -52,8 +52,8 @@ app.set('views', `${__dirname}/views`);
 app.set('view engine', 'ejs');
 
 app.use('/xss_test', require('./vulnerabilities/xss/'));
-app.use(sqli.base, require('./vulnerabilities/sqli/'));
-app.use(cmd_injection.base, require('./vulnerabilities/command_injection/'));
+app.use(sql_injection.base, require('./vulnerabilities/sql-injection/'));
+app.use(cmd_injection.base, require('./vulnerabilities/command-injection/'));
 app.use('/crypto', require('./vulnerabilities/crypto/'));
 app.use('/parampollution', require('./vulnerabilities/parampollution/'));
 app.use(
