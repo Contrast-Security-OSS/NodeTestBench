@@ -11,7 +11,7 @@ const pem = require('pem');
 const app = express();
 const {
   rules,
-  routes: { cmd_injection, path_traversal, ssrf, ssjs, unsafe_file_upload }
+  routes: { cmd_injection, path_traversal, ssrf, ssjs, unsafe_file_upload, xxe }
 } = require('@contrast/test-bench-utils');
 rules.static();
 
@@ -39,7 +39,7 @@ app.use(
 app.use('/config', require('./vulnerabilities/config/'));
 app.use('/serialization', require('./vulnerabilities/serialization'));
 app.use(ssjs.base, require('./vulnerabilities/ssjs-injection'));
-app.use('/xxe', require('./vulnerabilities/xxe'));
+app.use(xxe.base, require('./vulnerabilities/xxe'));
 app.use('/mongoose', require('./vulnerabilities/mongoose'));
 app.use('/typecheck', require('./vulnerabilities/typecheck'));
 app.use('/mongoose', require('./vulnerabilities/mongoose'));

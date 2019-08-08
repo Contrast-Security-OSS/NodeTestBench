@@ -1,39 +1,33 @@
 'use strict';
+const exp = require('express');
+const {
+  sinks: { xxe },
+  routes: {
+    xxe: { base: baseUri, sinks }
+  },
+  frameworkMapping: { express },
+  utils: { attackXml }
+} = require('@contrast/test-bench-utils');
 
-const path = require('path');
-const express = require('express');
-const libxmljs = require('libxmljs');
+const api = exp.Router();
+api.get('/', function(req, res) {
+  res.render('../vulnerabilities/xxe/views/index', {
+    attackXml,
+    url: baseUri
+  });
+});
 
-const api = express.Router();
-const view = path.resolve(__dirname, './views/index');
+const { method } = express.body;
+sinks.forEach((sink) => {
+  api[method](`/safe`, (req, res) => {
+    const data = xxe[sink](attackXml, true);
+    res.send(data.toString());
+  });
 
-const ATTACK_XML = `
-<!DOCTYPE read-fs [<!ELEMENT read-fs ANY >
-<!ENTITY passwd SYSTEM "file:///etc/passwd" >]>
-<users>
-  <user>
-    <read-fs>&passwd;</read-fs>
-    <name>C.K Frode</name>
-  </user>
-</users>`;
-
-api.get('/', (_, res) => res.render(view, { ATTACK_XML }));
-
-api.post(['/safe', '/unsafe'], (req, res) => {
-  let options;
-
-  if (/\/safe$/.test(req.url)) {
-    options = {
-      noent: false
-    };
-  } else {
-    options = {
-      noent: true
-    };
-  }
-
-  const parsedXML = libxmljs.parseXmlString(ATTACK_XML, options);
-  res.send(parsedXML.toString());
+  api[method](`/unsafe`, (req, res) => {
+    const data = xxe[sink](attackXml);
+    res.send(data.toString());
+  });
 });
 
 module.exports = api;
