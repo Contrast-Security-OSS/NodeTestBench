@@ -11,7 +11,15 @@ const pem = require('pem');
 const app = express();
 const {
   rules,
-  routes: { cmd_injection, path_traversal, ssrf, ssjs, unsafe_file_upload, xxe }
+  routes: {
+    cmd_injection,
+    path_traversal,
+    ssrf,
+    ssjs,
+    unsafe_file_upload,
+    unvalidated_redirect,
+    xxe
+  }
 } = require('@contrast/test-bench-utils');
 rules.static();
 
@@ -27,7 +35,7 @@ app.use(cmd_injection.base, require('./vulnerabilities/command_injection/'));
 app.use('/crypto', require('./vulnerabilities/crypto/'));
 app.use('/parampollution', require('./vulnerabilities/parampollution/'));
 app.use(
-  '/unvalidated-redirect',
+  unvalidated_redirect.base,
   require('./vulnerabilities/unvalidated-redirect/')
 );
 app.use(path_traversal.base, require('./vulnerabilities/path-traversal/'));
