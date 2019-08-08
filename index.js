@@ -11,8 +11,17 @@ const pem = require('pem');
 const app = express();
 const {
   rules,
-  routes: { cmd_injection, path_traversal, ssrf, ssjs, unsafe_file_upload, xxe }
+  routes: {
+    cmd_injection,
+    path_traversal,
+    sqli,
+    ssjs,
+    ssrf,
+    unsafe_file_upload,
+    xxe
+  }
 } = require('@contrast/test-bench-utils');
+
 rules.static();
 
 app.use('/assets', express.static('public'));
@@ -22,7 +31,7 @@ app.set('views', `${__dirname}/views`);
 app.set('view engine', 'ejs');
 
 app.use('/xss_test', require('./vulnerabilities/xss/'));
-app.use('/sqli', require('./vulnerabilities/sqli/'));
+app.use(sqli.base, require('./vulnerabilities/sqli/'));
 app.use(cmd_injection.base, require('./vulnerabilities/command_injection/'));
 app.use('/crypto', require('./vulnerabilities/crypto/'));
 app.use('/parampollution', require('./vulnerabilities/parampollution/'));
@@ -60,7 +69,7 @@ app.get('/', function(req, res) {
 
 app.get('/quit', function(req, res) {
   res.send('adieu, cherie');
-	process.exit(); // eslint-disable-line
+  process.exit(); // eslint-disable-line
 });
 
 const port = process.env.PORT || 3000;
@@ -68,9 +77,11 @@ const isHttp = process.env.SSL !== '1' ? true : false;
 const listener = () => {
   const stop = Date.now();
   /* eslint-disable */
-	console.log(`startup time: ${stop - start}`);
-	console.log(`example app listening on port ${port}${isHttp ? '' : ', securely.'}`);
-	/* eslint-enable */
+  console.log(`startup time: ${stop - start}`);
+  console.log(
+    `example app listening on port ${port}${isHttp ? '' : ', securely.'}`
+  );
+  /* eslint-enable */
 };
 
 /* Start Server based on protocol */

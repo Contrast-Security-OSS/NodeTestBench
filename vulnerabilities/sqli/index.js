@@ -1,54 +1,37 @@
-const express = require('express');
-const hooker = require('hooker');
-const mysql = require('mysql');
+'use strict';
 
+const express = require('express');
 const util = require('util');
 
-// mock the sql query so the app does not require a database connection
-hooker.hook(require('mysql/lib/Connection').prototype, 'query', {
-  post(result, sql, cb) {
-    cb(null, [
-      {
-        query: sql
-      }
-    ]);
-  }
-});
-
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root'
-});
-
-// pretend we already connected
-connection._connectCalled = true;
-
-connection.connect();
+const {
+  sinks,
+  routes,
+  frameworkMapping,
+  utils
+} = require('@contrast/test-bench-utils');
 
 module.exports = (function() {
-  'use strict';
   const api = express.Router();
+  const { method, key } = frameworkMapping.express.query;
+  const viewData = utils.buildUrls({
+    sinks: routes.sqli.sinks,
+    key,
+    baseUri: routes.sqli.base
+  });
 
   api.get('/', function(req, res) {
-    res.render(`${__dirname}/views/index`);
+    res.render(`${__dirname}/views/index`, { viewData });
   });
 
-  api.get('/mysql', function(req, res) {
-    connection.query(`SELECT "${req.query.name}" as "test";`, function(
-      error,
-      rows,
-      fields
-    ) {
-      res.send(`The solution is: ${util.inspect(rows)}`);
+  viewData.forEach(({ uri, sink }) => {
+    api[method](`${uri}/safe`, async (req, res) => {
+      const result = await sinks.sqli[sink]('clown');
+      res.send(util.inspect(result));
     });
-  });
-  api.get('/mysql_safe', function(req, res) {
-    connection.query('SELECT "' + 'clown' + '" as "test";', function(
-      error,
-      rows,
-      fields
-    ) {
-      res.send(`The solution is: ${util.inspect(rows)}`);
+
+    api[method](`${uri}/unsafe`, async (req, res) => {
+      const result = await sinks.sqli[sink](req[key].input);
+      res.send(util.inspect(result));
     });
   });
 
