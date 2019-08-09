@@ -21,13 +21,14 @@ const { sinks, utils } = require('@contrast/test-bench-utils');
 module.exports = (function() {
   'use strict';
   const api = express.Router();
-  const viewData = utils.getViewData('xss', 'express');
+  const sinkData = utils.getSinkData('xss', 'express');
+  const viewData = utils.groupSinkData(sinkData);
 
   api.get('/', function(req, res) {
     res.render(`${__dirname}/views/index`, { viewData });
   });
 
-  viewData.forEach(({ uri, sink, method, key }) => {
+  sinkData.forEach(({ uri, sink, method, key }) => {
     api[method](`${uri}/safe`, (req, res) => {
       const { input } = req[key];
       res.send(sinks.xss[sink](input, true));
