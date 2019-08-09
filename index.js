@@ -39,6 +39,7 @@ const {
     ssrf,
     unsafe_file_upload,
     unvalidated_redirect,
+    xss,
     xxe
   }
 } = require('@contrast/test-bench-utils');
@@ -51,7 +52,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'ejs');
 
-app.use('/xss_test', require('./vulnerabilities/xss/'));
+app.use(xss.base, require('./vulnerabilities/xss/'));
 app.use(sql_injection.base, require('./vulnerabilities/sql-injection/'));
 app.use(cmd_injection.base, require('./vulnerabilities/command-injection/'));
 app.use('/crypto', require('./vulnerabilities/crypto/'));
