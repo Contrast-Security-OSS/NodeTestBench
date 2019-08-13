@@ -1,5 +1,5 @@
 'use strict';
 
-const shared = require('../shared');
+const controllerFactory = require('../../utils/controllerFactory');
 
-module.exports = shared('sqlInjection');
+module.exports = controllerFactory('sqlInjection');

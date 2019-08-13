@@ -1,11 +1,11 @@
 'use strict';
 
-const _ = require('lodash');
+const { get } = require('lodash');
 const express = require('express');
 
 const { utils } = require('@contrast/test-bench-utils');
 
-module.exports = function shared(vulnerability) {
+module.exports = function controllerFactory(vulnerability) {
   const api = express.Router();
   const viewData = utils.getViewData(vulnerability, 'express');
 
@@ -15,19 +15,19 @@ module.exports = function shared(vulnerability) {
 
   viewData.forEach(({ method, uri, sink, key }) => {
     api[method](`${uri}/safe`, async (req, res) => {
-      const { input } = _.get(req, key);
+      const { input } = get(req, key);
       const result = await sink(input, { safe: true });
       res.send(result);
     });
 
     api[method](`${uri}/unsafe`, async (req, res) => {
-      const { input } = _.get(req, key);
+      const { input } = get(req, key);
       const result = await sink(input);
       res.send(result);
     });
 
     api[method](`${uri}/noop`, async (req, res) => {
-      const { input } = _.get(req, key);
+      const { input } = get(req, key);
       const result = await sink(input, { noop: true });
       res.send(result);
     });
