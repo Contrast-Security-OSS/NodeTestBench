@@ -1,19 +1,31 @@
 'use strict';
 
-const { get } = require('lodash');
 const express = require('express');
+const { get } = require('lodash');
 
 const { utils } = require('@contrast/test-bench-utils');
 
-module.exports = function controllerFactory(vulnerability) {
+/**
+ * Configures a route to handle sinks configured by our shared test-bench-utils
+ * module.
+ *
+ * @param {string} vulnerability the vulnerability or rule being tested
+ * @param {Object} ejsData       additional data to provide to the view renderer for this page
+ */
+module.exports = function controllerFactory(vulnerability, ejsData) {
   const api = express.Router();
-  const viewData = utils.getViewData(vulnerability, 'express');
+  const sinkData = utils.getSinkData(vulnerability, 'express');
+  const groupedSinkData = utils.groupSinkData(sinkData);
 
   api.get('/', function(req, res) {
-    res.render(`${__dirname}/${vulnerability}/views/index`, { viewData });
+    res.render(`${__dirname}/../vulnerabilities/${vulnerability}/views/index`, {
+      groupedSinkData,
+      sinkData,
+      ...ejsData
+    });
   });
 
-  viewData.forEach(({ method, uri, sink, key }) => {
+  sinkData.forEach(({ method, uri, sink, key }) => {
     api[method](`${uri}/safe`, async (req, res) => {
       const { input } = get(req, key);
       const result = await sink(input, { safe: true });

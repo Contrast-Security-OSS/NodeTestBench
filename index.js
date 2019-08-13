@@ -32,8 +32,8 @@ const app = express();
 const {
   rules,
   routes: {
-    cmd_injection,
-    path_traversal,
+    cmdInjection,
+    pathTraversal,
     sqlInjection,
     ssjs,
     ssrf,
@@ -54,14 +54,14 @@ app.set('view engine', 'ejs');
 
 app.use(xss.base, require('./vulnerabilities/xss/'));
 app.use(sqlInjection.base, require('./vulnerabilities/sqlInjection/'));
-app.use(cmd_injection.base, require('./vulnerabilities/command-injection/'));
+app.use(cmdInjection.base, require('./vulnerabilities/cmdInjection/'));
 app.use('/crypto', require('./vulnerabilities/crypto/'));
 app.use('/parampollution', require('./vulnerabilities/parampollution/'));
 app.use(
   unvalidated_redirect.base,
   require('./vulnerabilities/unvalidated-redirect/')
 );
-app.use(path_traversal.base, require('./vulnerabilities/path-traversal/'));
+app.use(pathTraversal.base, require('./vulnerabilities/pathTraversal/'));
 app.use('/header-injection', require('./vulnerabilities/header-injection/'));
 app.use(
   '/csp-header-insecure',
@@ -69,7 +69,7 @@ app.use(
 );
 app.use('/config', require('./vulnerabilities/config/'));
 app.use('/serialization', require('./vulnerabilities/serialization'));
-app.use(ssjs.base, require('./vulnerabilities/ssjs-injection'));
+app.use(ssjs.base, require('./vulnerabilities/ssjs'));
 app.use(xxe.base, require('./vulnerabilities/xxe'));
 app.use('/mongoose', require('./vulnerabilities/mongoose'));
 app.use('/typecheck', require('./vulnerabilities/typecheck'));
