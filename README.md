@@ -1,4 +1,4 @@
-# NodeTestBench
+# ExpressTestBench
 Intentionally Vulnerable Node Applications
 
 ## Running Locally
@@ -6,8 +6,8 @@ Intentionally Vulnerable Node Applications
 Make sure you have [Node.js](http://nodejs.org/) installed or install a version on node from [nvm](https://github.com/creationix/nvm).
 
 ```sh
-git clone https://github.com/Contrast-Security-OSS/NodeTestBench.git # or clone your own fork
-cd NodeTestBench
+git clone https://github.com/Contrast-Security-OSS/NodeTestBench.git ExpressTestBench # or clone your own fork
+cd ExpressTestBench
 npm install
 npm start
 ```
