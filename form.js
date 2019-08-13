@@ -100,7 +100,11 @@ const listener = function listener() {
   const stop = Date.now();
   /* eslint-disable no-console */
   console.log(`startup time: ${stop - start}`);
-  console.log('Server listening on http://localhost:%d', this.address().port);
+  console.log(
+    'Server listening on %s://localhost:%d',
+    isHttp ? 'http' : 'https',
+    this.address().port
+  );
 };
 
 /* Start Server based on protocol */
