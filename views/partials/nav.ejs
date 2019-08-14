@@ -1,97 +1,81 @@
 <div class="col-sm-3 col-md-2 sidebar">
+  <label>Rules</label>
+  <ul class="nav nav-sidebar">
+    <% navRoutes.forEach(({ name, base, products }) => { %>
+    <li>
+      <a href="<%= base %>">
+        <%= name %> <% products.forEach((product) => {%>
+        <span
+          class="badge pull-right <% if(product === 'Protect') { %>badge-info<% } else { %>badge-success<%}%>"
+        >
+          <%= product %>
+        </span>
+        <% }); %>
+      </a>
+    </li>
+    <% }); %>
+  </ul>
 
-	<label>XSS</label>
-	<ul class="nav nav-sidebar">
-		<li><a href="/xss">Reflected XSS</a></li>
-	</ul>
+  <label>Other Rules</label>
+  <ul class="nav nav-sidebar">
+    <li><a href="/header-injection">Header Injection</a></li>
+    <li><a href="/csp-header-insecure">Csp Header Insecure</a></li>
+  </ul>
 
-	<label>Injection</label>
-	<ul class="nav nav-sidebar">
-		<li><a href="/cmdInjection">Command Injection</a></li>
-		<li><a href="/sqlInjection">SQL Injection</a></li>
-		<li><a href="/ssjs">SSJS Injection</a></li>
-	</ul>
+  <!-- <label>Crypto</label> -->
+  <ul class="nav nav-sidebar">
+    <li><a href="/crypto/crypto-bad-mac">Crypto Bad Mac</a></li>
+    <li><a href="/crypto/crypto-bad-ciphers">Crypto Bad Ciphers</a></li>
+    <li><a href="/crypto/crypto-weak-random">Crypto Weak Random</a></li>
+  </ul>
 
-	<label>Header</label>
-	<ul class="nav nav-sidebar">
-		<li><a href="/unvalidatedRedirect">Unvalidated Redirect</a></li>
-		<li><a href="/header-injection">Header Injection</a></li>
-		<li><a href="/csp-header-insecure">Csp Header Insecure</a></li>
-	</ul>
+  <!-- <label>HTTP</label> -->
+  <ul class="nav nav-sidebar">
+    <li><a href="/parampollution">Http Parameter Pollution</a></li>
+    <li><a href="/parampollution">Cache Control Missing</a></li>
+  </ul>
 
-	<label>File / Path</label>
-	<ul class="nav nav-sidebar">
-		<li><a href="/pathTraversal">Path Traversal</a></li>
-	</ul>
+  <!-- <label>Config</label> -->
+  <ul class="nav nav-sidebar">
+    <li>
+      <a href="/config">
+        Autocomplete Missing, Cache Controls Missing, Clickjacking Controls
+        Missing, Parameter Pollution
+      </a>
+    </li>
+  </ul>
 
-	<label>Crypto</label>
-	<ul class="nav nav-sidebar">
-		<li><a href="/crypto/crypto-bad-mac">Crypto Bad Mac</a></li>
-		<li><a href="/crypto/crypto-bad-ciphers">Crypto Bad Ciphers</a></li>
-		<li><a href="/crypto/crypto-weak-random">Crypto Weak Random</a></li>
-	</ul>
+  <!-- <label>Typechecks</label> -->
+  <ul class="nav nav-sidebar">
+    <li>
+      <a href="/typecheck/url"><code>url</code></a>
+    </li>
+    <li>
+      <a href="/typecheck/stream"><code>stream</code></a>
+    </li>
+    <li>
+      <a href="/typecheck/crypto/hmac"><code>crypto</code></a>
+    </li>
+    <li>
+      <a href="/typecheck/path"><code>path</code></a>
+    </li>
+    <li>
+      <a href="/typecheck/querystring"><code>querystring</code></a>
+    </li>
+    <li>
+      <a href="/typecheck/sqlite3"><code>sqlite3</code></a>
+    </li>
+  </ul>
 
-  <label>Unsafe File Upload</label>
-	<ul class="nav nav-sidebar">
-		<li>
-			<a href="/unsafeFileUpload">Unsafe File Upload</a>
-		</li>
-	</ul>
-
-	<label>Request Forgery</label>
-	<ul class="nav nav-sidebar">
-		<li>
-			<a href="/ssrf">SSRF</a>
-		</li>
-	</ul>
-
-	<label>HTTP</label>
-	<ul class="nav nav-sidebar">
-		<li><a href="/parampollution">Http Parameter Pollution</a></li>
-		<li><a href="/parampollution">Cache Control Missing</a></li>
-	</ul>
-
-	<label>Config</label>
-	<ul class="nav nav-sidebar">
-		<li>
-			<a href="/config">
-				Autocomplete Missing,
-				Cache Controls Missing,
-				Clickjacking Controls Missing,
-				Parameter Pollution
-			</a>
-		</li>
-	</ul>
-
-	<label>XML External Entity Processing</label>
-	<ul class="nav nav-sidebar">
-		<li>
-			<a href="/xxe">
-				<code>libxmljs</code>
-			</a>
-		</li>
-	</ul>
-
-        <label>Typechecks</label>
-	<ul class="nav nav-sidebar">
-		<li><a href="/typecheck/url"><code>url</code></a></li>
-   	        <li><a href="/typecheck/stream"><code>stream</code></a></li>
-                <li><a href="/typecheck/crypto/hmac"><code>crypto</code></a></li>
-                <li><a href="/typecheck/path"><code>path</code></a></li>
-                <li><a href="/typecheck/querystring"><code>querystring</code></a></li>
-                <li><a href="/typecheck/sqlite3"><code>sqlite3</code></a></li>
-
-	</ul>
-
-	<label>Misc.</label>
-	<ul class="nav nav-sidebar">
-		<li>
-			<a href="/serialization/node-serialize">
-				<code>node-serialize</code> : CVE-2017-5941
-			</a>
-		</li>
-                <li><a href="/mongoose">Mongoose ODM</a></li>
-                <li><a href="/ddb">DynamoDB ODM</a></li>
-                <li><a href="express-session">express-session</a></li>
-	</ul>
+  <!-- <label>Misc.</label> -->
+  <ul class="nav nav-sidebar">
+    <li>
+      <a href="/serialization/node-serialize">
+        <code>node-serialize</code> : CVE-2017-5941
+      </a>
+    </li>
+    <li><a href="/mongoose">Mongoose ODM</a></li>
+    <li><a href="/ddb">DynamoDB ODM</a></li>
+    <li><a href="express-session">express-session</a></li>
+  </ul>
 </div>

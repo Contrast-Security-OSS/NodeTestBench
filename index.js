@@ -41,7 +41,8 @@ const {
     unvalidatedRedirect,
     xss,
     xxe
-  }
+  },
+  utils
 } = require('@contrast/test-bench-utils');
 
 rules.static();
@@ -80,6 +81,7 @@ app.use(ssrf.base, require('./vulnerabilities/ssrf'));
 app.use(unsafeFileUpload.base, require('./vulnerabilities/unsafeFileUpload'));
 
 // adding current year for footer to be up to date
+app.locals.navRoutes = utils.navRoutes;
 app.locals.currentYear = new Date().getFullYear();
 
 app.get('/', function(req, res) {
