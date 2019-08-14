@@ -1,19 +1,18 @@
 'use strict';
 const express = require('express');
 const { get } = require('lodash');
-
 const path = require('path');
 const multer = require('multer');
 
 const { utils } = require('@contrast/test-bench-utils');
 
 const router = express.Router();
-const dest = path.resolve(__dirname, '.', 'uploads');
+const dest = path.resolve(__dirname, 'uploads');
 const upload = multer({ dest });
 const sinkData = utils.getSinkData('unsafeFileUpload', 'express');
 
 router.get('/', function(req, res) {
-  res.render(path.resolve(__dirname, '.', 'views', 'index'), {
+  res.render(path.resolve(__dirname, 'views', 'index'), {
     sinkData
   });
 });
