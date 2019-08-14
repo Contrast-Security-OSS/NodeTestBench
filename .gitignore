@@ -255,4 +255,4 @@ node-contrast-*.log
 security-*.log
 
 # multi-part form uploads
-vulnerabilities/uploads
+vulnerabilities/unsafeFileUpload/uploads/

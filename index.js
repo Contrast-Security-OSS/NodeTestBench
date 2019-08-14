@@ -37,8 +37,8 @@ const {
     sqlInjection,
     ssjs,
     ssrf,
-    unsafe_file_upload,
-    unvalidated_redirect,
+    unsafeFileUpload,
+    unvalidatedRedirect,
     xss,
     xxe
   }
@@ -52,22 +52,22 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'ejs');
 
-app.use(xss.base, require('./vulnerabilities/xss/'));
-app.use(sqlInjection.base, require('./vulnerabilities/sqlInjection/'));
-app.use(cmdInjection.base, require('./vulnerabilities/cmdInjection/'));
-app.use('/crypto', require('./vulnerabilities/crypto/'));
-app.use('/parampollution', require('./vulnerabilities/parampollution/'));
+app.use(xss.base, require('./vulnerabilities/xss'));
+app.use(sqlInjection.base, require('./vulnerabilities/sqlInjection'));
+app.use(cmdInjection.base, require('./vulnerabilities/cmdInjection'));
+app.use('/crypto', require('./vulnerabilities/crypto'));
+app.use('/parampollution', require('./vulnerabilities/parampollution'));
 app.use(
-  unvalidated_redirect.base,
-  require('./vulnerabilities/unvalidated-redirect/')
+  unvalidatedRedirect.base,
+  require('./vulnerabilities/unvalidatedRedirect')
 );
-app.use(pathTraversal.base, require('./vulnerabilities/pathTraversal/'));
-app.use('/header-injection', require('./vulnerabilities/header-injection/'));
+app.use(pathTraversal.base, require('./vulnerabilities/pathTraversal'));
+app.use('/header-injection', require('./vulnerabilities/header-injection'));
 app.use(
   '/csp-header-insecure',
   require('./vulnerabilities/csp-header-insecure')
 );
-app.use('/config', require('./vulnerabilities/config/'));
+app.use('/config', require('./vulnerabilities/config'));
 app.use('/serialization', require('./vulnerabilities/serialization'));
 app.use(ssjs.base, require('./vulnerabilities/ssjs'));
 app.use(xxe.base, require('./vulnerabilities/xxe'));
@@ -77,10 +77,7 @@ app.use('/mongoose', require('./vulnerabilities/mongoose'));
 app.use('/express-session', require('./vulnerabilities/express-session'));
 app.use('/ddb', require('./vulnerabilities/dynamodb'));
 app.use(ssrf.base, require('./vulnerabilities/ssrf'));
-app.use(
-  unsafe_file_upload.base,
-  require('./vulnerabilities/unsafe-file-upload')
-);
+app.use(unsafeFileUpload.base, require('./vulnerabilities/unsafeFileUpload'));
 
 // adding current year for footer to be up to date
 app.locals.currentYear = new Date().getFullYear();

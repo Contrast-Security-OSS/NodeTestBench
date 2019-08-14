@@ -2,48 +2,67 @@
 
 const express = require('express');
 const { get } = require('lodash');
+const path = require('path');
 
 const { utils } = require('@contrast/test-bench-utils');
+
+const defaultRespond = (result, req, res) => res.send(result);
 
 /**
  * Configures a route to handle sinks configured by our shared test-bench-utils
  * module.
  *
  * @param {string} vulnerability the vulnerability or rule being tested
- * @param {Object} ejsData       additional data to provide to the view renderer for this page
+ * @param {Object} opts
+ * @param {Object} opts.locals additional locals to provide to EJS
+ * @param {Function} opts.respond if provided, a custom return or response
  */
-module.exports = function controllerFactory(vulnerability, ejsData) {
-  const api = express.Router();
+module.exports = function controllerFactory(
+  vulnerability,
+  { locals = {}, respond = defaultRespond } = {}
+) {
+  const router = express.Router();
   const sinkData = utils.getSinkData(vulnerability, 'express');
   const groupedSinkData = utils.groupSinkData(sinkData);
 
-  api.get('/', function(req, res) {
-    res.render(`${__dirname}/../vulnerabilities/${vulnerability}/views/index`, {
-      groupedSinkData,
-      sinkData,
-      ...ejsData
-    });
+  router.get('/', function(req, res) {
+    res.render(
+      path.resolve(
+        __dirname,
+        '..',
+        'vulnerabilities',
+        vulnerability,
+        'views',
+        'index'
+      ),
+      {
+        groupedSinkData,
+        sinkData,
+        ...locals
+      }
+    );
   });
 
   sinkData.forEach(({ method, uri, sink, key }) => {
-    api[method](`${uri}/safe`, async (req, res) => {
+    router[method](`${uri}/safe`, async (req, res) => {
       const { input } = get(req, key);
       const result = await sink(input, { safe: true });
-      res.send(result);
+      respond(result, req, res);
     });
 
-    api[method](`${uri}/unsafe`, async (req, res) => {
+    router[method](`${uri}/unsafe`, async (req, res) => {
       const { input } = get(req, key);
       const result = await sink(input);
-      res.send(result);
+      respond(result, req, res);
     });
 
-    api[method](`${uri}/noop`, async (req, res) => {
-      const { input } = get(req, key);
+    router[method](`${uri}/noop`, async (req, res) => {
+      // const { input } = get(req, key);
+      const input = 'noop';
       const result = await sink(input, { noop: true });
-      res.send(result);
+      respond(result, req, res);
     });
   });
 
-  return api;
+  return router;
 };

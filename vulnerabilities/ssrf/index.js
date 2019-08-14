@@ -14,13 +14,13 @@ const sinkData = utils.getSinkData('ssrf', 'express');
  * SSRF has different behavior, so we don't reuse the controllerFactory here.
  */
 router.get('/', function(req, res) {
-  res.render(path.resolve(__dirname, './views/index'), {
+  res.render(path.resolve(__dirname, '.', 'views', 'index'), {
     requestUrl: 'http://www.example.com',
     sinkData
   });
 });
 
-sinkData.forEach(({ method, uri, sink, name, key }) => {
+sinkData.forEach(({ method, sink, name, key }) => {
   router[method](`/${name}/query`, async (req, res) => {
     const { input } = get(req, key);
     const url = `${EXAMPLE_URL}?q=${input}`;
