@@ -23,7 +23,7 @@ const express = require('express');
  */
 require('express-async-errors');
 const bodyParser = require('body-parser');
-
+const layouts = require('express-ejs-layouts');
 const http = require('http');
 const https = require('https');
 const pem = require('pem');
@@ -52,6 +52,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'ejs');
+app.use(layouts);
 
 app.use(xss.base, require('./vulnerabilities/xss'));
 app.use(sqlInjection.base, require('./vulnerabilities/sqlInjection'));

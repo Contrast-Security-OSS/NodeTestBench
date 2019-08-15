@@ -51,6 +51,11 @@ body {
     background-color: #ebf9f7;
     border-right: 1px solid #eee;
   }
+
+  .sidebar .nav-sidebar > li > a:hover,
+  .sidebar .nav-sidebar > li > a:focus {
+    background-color: #c4ede7
+  }
 }
 
 /* Sidebar navigation */
