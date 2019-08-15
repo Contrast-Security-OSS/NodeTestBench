@@ -33,6 +33,7 @@ const {
   rules,
   routes: {
     cmdInjection,
+    nosqlInjection,
     pathTraversal,
     sqlInjection,
     ssjs,
@@ -42,7 +43,7 @@ const {
     xss,
     xxe
   },
-  utils
+  navRoutes
 } = require('@contrast/test-bench-utils');
 
 rules.static();
@@ -57,6 +58,7 @@ app.use(layouts);
 app.use(xss.base, require('./vulnerabilities/xss'));
 app.use(sqlInjection.base, require('./vulnerabilities/sqlInjection'));
 app.use(cmdInjection.base, require('./vulnerabilities/cmdInjection'));
+app.use(nosqlInjection.base, require('./vulnerabilities/nosqlInjection'));
 app.use('/crypto', require('./vulnerabilities/crypto'));
 app.use('/parampollution', require('./vulnerabilities/parampollution'));
 app.use(
@@ -82,7 +84,7 @@ app.use(ssrf.base, require('./vulnerabilities/ssrf'));
 app.use(unsafeFileUpload.base, require('./vulnerabilities/unsafeFileUpload'));
 
 // adding current year for footer to be up to date
-app.locals.navRoutes = utils.navRoutes;
+app.locals.navRoutes = navRoutes;
 app.locals.currentYear = new Date().getFullYear();
 
 app.get('/', function(req, res) {
