@@ -15,7 +15,7 @@ const { utils } = require('@contrast/test-bench-utils');
  */
 
 /**
- * @type ResponseFn
+ * @type {ResponseFn}
  */
 const defaultRespond = (result, req, res) => res.send(result);
 
