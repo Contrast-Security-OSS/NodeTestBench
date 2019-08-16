@@ -22,3 +22,10 @@ See [our documentation](https://docs.contrastsecurity.com/installation-nodeinsta
 ### Running the agent
 After installation, the agent can be run with ```npm run contrast```.
 For more information on configuration and which technologies the agent supports, see our [documentation](https://docs.contrastsecurity.com/installation-node.html#node-config).
+
+## Adding a shared vulnerability
+Once you have added shared functionality to
+[`@contrast/test-bench-utils`](https://github.com/Contrast-Security-OSS/test-bench-utils)
+and
+[`@contrast/test-bench-content`](https://github.com/Contrast-Security-OSS/test-bench-content),
+you are ready to add an endpoint in the test bench application.
