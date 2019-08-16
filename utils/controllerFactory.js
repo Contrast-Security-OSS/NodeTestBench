@@ -6,6 +6,17 @@ const path = require('path');
 
 const { utils } = require('@contrast/test-bench-utils');
 
+/**
+ * @callback ResponseFn
+ * @param {any} result
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @return {any}
+ */
+
+/**
+ * @type ResponseFn
+ */
 const defaultRespond = (result, req, res) => res.send(result);
 
 /**
@@ -13,9 +24,9 @@ const defaultRespond = (result, req, res) => res.send(result);
  * module.
  *
  * @param {string} vulnerability the vulnerability or rule being tested
- * @param {Object=} opts
- * @param {Object=} opts.locals additional locals to provide to EJS
- * @param {Function=} opts.respond if provided, a custom return or response
+ * @param {Object} opts
+ * @param {Object} opts.locals additional locals to provide to EJS
+ * @param {ResponseFn} opts.respond if provided, a custom return or response
  */
 module.exports = function controllerFactory(
   vulnerability,
