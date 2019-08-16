@@ -10,9 +10,11 @@ const router = express.Router();
 const dest = path.resolve(__dirname, 'uploads');
 const upload = multer({ dest });
 const sinkData = utils.getSinkData('unsafeFileUpload', 'express');
+const routeMeta = utils.getRouteMeta('unsafeFileUpload');
 
 router.get('/', function(req, res) {
   res.render(path.resolve(__dirname, 'views', 'index'), {
+    ...routeMeta,
     sinkData
   });
 });

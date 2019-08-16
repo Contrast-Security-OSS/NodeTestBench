@@ -24,6 +24,7 @@ module.exports = function controllerFactory(
   const router = express.Router();
   const sinkData = utils.getSinkData(vulnerability, 'express');
   const groupedSinkData = utils.groupSinkData(sinkData);
+  const routeMeta = utils.getRouteMeta(vulnerability);
 
   router.get('/', function(req, res) {
     res.render(
@@ -36,6 +37,7 @@ module.exports = function controllerFactory(
         'index'
       ),
       {
+        ...routeMeta,
         groupedSinkData,
         sinkData,
         ...locals

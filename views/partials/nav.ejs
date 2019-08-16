@@ -1,20 +1,5 @@
 <div id="navbar" class="col-sm-3 col-md-2 sidebar">
-  <label>Rules</label>
-  <ul class="nav nav-sidebar">
-    <% navRoutes.forEach(({ name, base, products }) => { %>
-    <li>
-      <a href="<%= base %>">
-        <%= name %>
-        <% products.forEach((product) => {%>
-        <span class="badge pull-right <% if(product === 'Protect') { %>badge-info<% } else { %>badge-success<%}%>">
-          <%= product %>
-        </span>
-        <% }); %>
-      </a>
-    </li>
-    <% }); %>
-  </ul>
-
+  <% include ../../node_modules/@contrast/test-bench-content/partials/nav.ejs %>
   <label>Other Rules</label>
   <!-- <label>Headers</label> -->
   <ul class="nav nav-sidebar">
