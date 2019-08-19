@@ -38,6 +38,7 @@
     "express-ejs-layouts": "^2.5.0",
     "express-session": "^1.15.6",
     "lodash": "^4.17.13",
+    "mongoose": "^5.6.9",
     "multer": "^1.4.1",
     "node-serialize": "0.0.4",
     "pem": "^1.14.2"
