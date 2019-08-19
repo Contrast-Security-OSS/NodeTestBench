@@ -41,7 +41,8 @@
     "mongoose": "^5.6.9",
     "multer": "^1.4.1",
     "node-serialize": "0.0.4",
-    "pem": "^1.14.2"
+    "pem": "^1.14.2",
+    "sqlite3": "^4.1.0"
   },
   "devDependencies": {
     "@contrast/eslint-config": "^1.0.3",
