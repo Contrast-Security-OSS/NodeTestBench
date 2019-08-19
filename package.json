@@ -37,15 +37,10 @@
     "express-async-errors": "^3.1.1",
     "express-ejs-layouts": "^2.5.0",
     "express-session": "^1.15.6",
-    "hooker": "^0.2.3",
     "lodash": "^4.17.13",
-    "mongoose": "^5.3.12",
     "multer": "^1.4.1",
-    "mysql": "^2.10.2",
     "node-serialize": "0.0.4",
-    "pem": "^1.12.3",
-    "sqlite3": "^4.0.4",
-    "stealthy-require": "^1.1.1"
+    "pem": "^1.14.2"
   },
   "devDependencies": {
     "@contrast/eslint-config": "^1.0.3",
