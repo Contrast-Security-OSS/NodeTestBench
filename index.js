@@ -30,7 +30,6 @@ const pem = require('pem');
 
 const app = express();
 const {
-  rules,
   routes: {
     cmdInjection,
     nosqlInjection,
@@ -46,8 +45,7 @@ const {
   navRoutes
 } = require('@contrast/test-bench-utils');
 
-rules.static();
-
+require('./vulnerabilities/static');
 app.use('/assets', express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
