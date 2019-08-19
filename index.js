@@ -30,21 +30,7 @@ const https = require('https');
 const pem = require('pem');
 
 const app = express();
-const {
-  routes: {
-    cmdInjection,
-    nosqlInjection,
-    pathTraversal,
-    sqlInjection,
-    ssjs,
-    ssrf,
-    unsafeFileUpload,
-    unvalidatedRedirect,
-    xss,
-    xxe
-  },
-  navRoutes
-} = require('@contrast/test-bench-utils');
+const { navRoutes } = require('@contrast/test-bench-utils');
 
 require('./vulnerabilities/static');
 app.use('/assets', express.static('public'));
@@ -55,17 +41,12 @@ app.set('views', `${__dirname}/views`);
 app.set('view engine', 'ejs');
 app.use(layouts);
 
-app.use(xss.base, require('./vulnerabilities/xss'));
-app.use(sqlInjection.base, require('./vulnerabilities/sqlInjection'));
-app.use(cmdInjection.base, require('./vulnerabilities/cmdInjection'));
-app.use(nosqlInjection.base, require('./vulnerabilities/nosqlInjection'));
+// dynamically register routes from shared config
+navRoutes.forEach(({ base }) => {
+  app.use(base, require(`./vulnerabilities/${base.substring(1)}`));
+});
 app.use('/crypto', require('./vulnerabilities/crypto'));
 app.use('/parampollution', require('./vulnerabilities/parampollution'));
-app.use(
-  unvalidatedRedirect.base,
-  require('./vulnerabilities/unvalidatedRedirect')
-);
-app.use(pathTraversal.base, require('./vulnerabilities/pathTraversal'));
 app.use('/header-injection', require('./vulnerabilities/header-injection'));
 app.use(
   '/csp-header-insecure',
@@ -73,15 +54,11 @@ app.use(
 );
 app.use('/config', require('./vulnerabilities/config'));
 app.use('/serialization', require('./vulnerabilities/serialization'));
-app.use(ssjs.base, require('./vulnerabilities/ssjs'));
-app.use(xxe.base, require('./vulnerabilities/xxe'));
 app.use('/mongoose', require('./vulnerabilities/mongoose'));
 app.use('/typecheck', require('./vulnerabilities/typecheck'));
 app.use('/mongoose', require('./vulnerabilities/mongoose'));
 app.use('/express-session', require('./vulnerabilities/express-session'));
 app.use('/ddb', require('./vulnerabilities/dynamodb'));
-app.use(ssrf.base, require('./vulnerabilities/ssrf'));
-app.use(unsafeFileUpload.base, require('./vulnerabilities/unsafeFileUpload'));
 
 // adding current year for footer to be up to date
 app.locals.navRoutes = navRoutes;
