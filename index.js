@@ -23,6 +23,7 @@ const express = require('express');
  */
 require('express-async-errors');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const layouts = require('express-ejs-layouts');
 const http = require('http');
 const https = require('https');
@@ -48,6 +49,7 @@ const {
 require('./vulnerabilities/static');
 app.use('/assets', express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(cookieParser('keyboard cat'));
 
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'ejs');

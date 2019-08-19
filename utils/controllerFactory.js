@@ -30,12 +30,13 @@ const defaultRespond = (result, req, res, next) => res.send(result);
  * @param {Object} opts
  * @param {Object} opts.locals additional locals to provide to EJS
  * @param {ResponseFn} opts.respond if provided, a custom return or response
+ * @param {express.Router} opts.router if provided, an express router
+ * @return {express.Router} a configured express router
  */
 module.exports = function controllerFactory(
   vulnerability,
-  { locals = {}, respond = defaultRespond } = {}
+  { locals = {}, respond = defaultRespond, router = express.Router() } = {}
 ) {
-  const router = express.Router();
   const sinkData = utils.getSinkData(vulnerability, 'express');
   const groupedSinkData = utils.groupSinkData(sinkData);
   const routeMeta = utils.getRouteMeta(vulnerability);
