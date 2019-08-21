@@ -2,53 +2,66 @@
 
 const start = Date.now();
 const express = require('express');
+/**
+ * This allows use to naively handle
+ * async controller requests without
+ * a catch handler that calls next
+ *
+ * Instead of:
+ * try {
+ *   const data = await asyncCall();
+ *   res.send(data.toString());
+ * } catch(err) {
+ *   next(err);
+ * }
+ *
+ * We can do:
+ *
+ * const data = await asyncCall();
+ * res.send(data.toString());
+ *
+ */
+require('express-async-errors');
 const bodyParser = require('body-parser');
-
+const cookieParser = require('cookie-parser');
+const layouts = require('express-ejs-layouts');
 const http = require('http');
 const https = require('https');
 const pem = require('pem');
 
-require('./vulnerabilities/static');
-
 const app = express();
+const { navRoutes } = require('@contrast/test-bench-utils');
 
+require('./vulnerabilities/static');
 app.use('/assets', express.static('public'));
-//app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(cookieParser('keyboard cat'));
 
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'ejs');
+app.use(layouts);
 
-app.use('/xss_test', require('./vulnerabilities/xss/'));
-app.use('/xss_objects', require('./vulnerabilities/xss/objects/'));
-app.use('/sqli', require('./vulnerabilities/sqli/'));
-app.use('/command_injection', require('./vulnerabilities/command_injection/'));
-app.use('/unsafe_eval', require('./vulnerabilities/unsafe_eval/'));
-app.use('/crypto', require('./vulnerabilities/crypto/'));
-app.use('/parampollution', require('./vulnerabilities/parampollution/'));
-app.use(
-  '/unvalidated-redirect',
-  require('./vulnerabilities/unvalidated-redirect/')
-);
-app.use('/path-traversal', require('./vulnerabilities/path-traversal/'));
-app.use('/header-injection', require('./vulnerabilities/header-injection/'));
+// dynamically register routes from shared config
+navRoutes.forEach(({ base }) => {
+  app.use(base, require(`./vulnerabilities/${base.substring(1)}`));
+});
+app.use('/crypto', require('./vulnerabilities/crypto'));
+app.use('/parampollution', require('./vulnerabilities/parampollution'));
+app.use('/header-injection', require('./vulnerabilities/header-injection'));
 app.use(
   '/csp-header-insecure',
   require('./vulnerabilities/csp-header-insecure')
 );
-app.use('/config', require('./vulnerabilities/config/'));
+app.use('/config', require('./vulnerabilities/config'));
 app.use('/serialization', require('./vulnerabilities/serialization'));
-app.use('/ssjs-injection', require('./vulnerabilities/ssjs-injection'));
-app.use('/xxe', require('./vulnerabilities/xxe'));
 app.use('/mongoose', require('./vulnerabilities/mongoose'));
 app.use('/typecheck', require('./vulnerabilities/typecheck'));
 app.use('/mongoose', require('./vulnerabilities/mongoose'));
 app.use('/express-session', require('./vulnerabilities/express-session'));
 app.use('/ddb', require('./vulnerabilities/dynamodb'));
-app.use('/ssrf', require('./vulnerabilities/ssrf'));
-app.use('/unsafe-file-upload', require('./vulnerabilities/unsafe-file-upload'));
 
 // adding current year for footer to be up to date
+app.locals.navRoutes = navRoutes;
 app.locals.currentYear = new Date().getFullYear();
 
 app.get('/', function(req, res) {
@@ -57,17 +70,20 @@ app.get('/', function(req, res) {
 
 app.get('/quit', function(req, res) {
   res.send('adieu, cherie');
-	process.exit(); // eslint-disable-line
+  process.exit(); // eslint-disable-line
 });
 
 const port = process.env.PORT || 3000;
 const isHttp = process.env.SSL !== '1' ? true : false;
-const listener = () => {
+const listener = function listener() {
   const stop = Date.now();
-  /* eslint-disable */
-	console.log(`startup time: ${stop - start}`);
-	console.log(`example app listening on port ${port}${isHttp ? '' : ', securely.'}`);
-	/* eslint-enable */
+  /* eslint-disable no-console */
+  console.log(`startup time: ${stop - start}`);
+  console.log(
+    'Server listening on %s://localhost:%d',
+    isHttp ? 'http' : 'https',
+    this.address().port
+  );
 };
 
 /* Start Server based on protocol */
