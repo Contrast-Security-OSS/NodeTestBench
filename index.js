@@ -88,7 +88,7 @@ const listener = function listener() {
 
 /* Start Server based on protocol */
 isHttp
-  ? http.createServer(app).listen(port, listener)
+  ? http.createServer(app).listen(port, 'localhost', listener)
   : pem.createCertificate({ days: 1, selfSigned: true }, (err, keys) => {
       if (err) {
         throw err;
