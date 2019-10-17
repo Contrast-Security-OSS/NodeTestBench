@@ -75,25 +75,27 @@ app.get('/quit', function(req, res) {
 
 const port = process.env.PORT || 3000;
 const isHttp = process.env.SSL !== '1' ? true : false;
+const host = 'localhost';
 const listener = function listener() {
   const stop = Date.now();
   /* eslint-disable no-console */
   console.log(`startup time: ${stop - start}`);
   console.log(
-    'Server listening on %s://localhost:%d',
+    'Server listening on %s://%s:%d',
     isHttp ? 'http' : 'https',
+    host,
     this.address().port
   );
 };
 
 /* Start Server based on protocol */
 isHttp
-  ? http.createServer(app).listen(port, 'localhost', listener)
+  ? http.createServer(app).listen(port, host, listener)
   : pem.createCertificate({ days: 1, selfSigned: true }, (err, keys) => {
       if (err) {
         throw err;
       }
       https
         .createServer({ key: keys.serviceKey, cert: keys.certificate }, app)
-        .listen(port, listener);
+        .listen(port, host, listener);
     });
