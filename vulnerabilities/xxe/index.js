@@ -8,7 +8,7 @@ const {
 const controllerFactory = require('../../utils/controllerFactory');
 
 module.exports = controllerFactory('xxe', {
-  model: {
+  locals: {
     input: attackXml
   }
 });
