@@ -35,7 +35,6 @@ const { navRoutes } = require('@contrast/test-bench-utils');
 require('./vulnerabilities/static');
 app.use('/assets', express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-app.use(bodyParser.json());
 app.use(cookieParser('keyboard cat'));
 
 app.set('views', `${__dirname}/views`);
@@ -72,10 +71,6 @@ app.get('/', function(req, res) {
 app.get('/quit', function(req, res) {
   res.send('adieu, cherie');
   process.exit(); // eslint-disable-line
-});
-
-app.post('/depth', (req, res) => {
-  res.send(req.body.nested.key || req.body.key);
 });
 
 const port = process.env.PORT || 3000;
