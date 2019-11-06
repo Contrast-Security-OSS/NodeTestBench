@@ -1,4 +1,7 @@
 'use strict';
+if (process.env.CONTRAST_NEW_RELIC_KEY) {
+  require('newrelic');
+}
 
 const start = Date.now();
 const express = require('express');

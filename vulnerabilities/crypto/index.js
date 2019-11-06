@@ -24,8 +24,9 @@ module.exports = (function() {
   api.get('/crypto-bad-ciphers', function(req, res) {
     // this should be tainted
 
-    // eslint-disable-next-line node/no-deprecated-api
-    const cipher = crypto.createCipher('rc2', 'woot');
+    const key = Buffer.alloc(32);
+    const iv = Buffer.alloc(8);
+    const cipher = crypto.createCipheriv('rc2', key, iv);
     cipher.update('woot', 'utf8', 'base64');
     const value = cipher.final('base64');
 
