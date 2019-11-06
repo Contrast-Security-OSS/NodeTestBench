@@ -256,3 +256,6 @@ security-*.log
 
 # multi-part form uploads
 vulnerabilities/unsafeFileUpload/uploads/
+
+# new relic agent logs
+newrelic_agent.log
