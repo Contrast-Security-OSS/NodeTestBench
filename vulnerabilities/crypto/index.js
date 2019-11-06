@@ -26,7 +26,7 @@ module.exports = (function() {
 
     const key = Buffer.alloc(32);
     const iv = Buffer.alloc(8);
-    const cipher = crypto.createCipher('rc2', key, iv);
+    const cipher = crypto.createCipheriv('rc2', key, iv);
     cipher.update('woot', 'utf8', 'base64');
     const value = cipher.final('base64');
 
