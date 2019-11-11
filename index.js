@@ -98,8 +98,8 @@ function createServer() {
         https
           .createServer({ key: keys.serviceKey, cert: keys.certificate }, app)
           .listen(PORT, HOST, listener);
-      });
-    : http.createServer(app).listen(PORT, HOST, listener)
+      })
+    : http.createServer(app).listen(PORT, HOST, listener);
 }
 
 if (CLUSTER) {
