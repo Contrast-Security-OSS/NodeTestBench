@@ -35,6 +35,9 @@ const pem = require('pem');
 const app = express();
 const { navRoutes } = require('@contrast/test-bench-utils');
 
+const { PORT = 3000, HOST = 'localhost', SSL, CLUSTER } = process.env;
+const isHttps = SSL === '1' ? true : false;
+
 require('./vulnerabilities/static');
 app.use('/assets', express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
@@ -76,36 +79,30 @@ app.get('/quit', function(req, res) {
   process.exit(); // eslint-disable-line
 });
 
-const port = process.env.PORT || 3000;
-const isHttp = process.env.SSL !== '1' ? true : false;
-const host = 'localhost';
 const listener = function listener() {
+  const { address, port } = this.address();
+  const protocol = isHttps ? 'https' : 'http';
   const stop = Date.now();
   /* eslint-disable no-console */
   console.log(`startup time: ${stop - start}`);
-  console.log(
-    'Server listening on %s://%s:%d',
-    isHttp ? 'http' : 'https',
-    host,
-    this.address().port
-  );
+  console.log('Server listening on %s://%s:%d', protocol, address, port);
 };
 
 function createServer() {
   /* Start Server based on protocol */
-  isHttp
-    ? http.createServer(app).listen(port, listener)
-    : pem.createCertificate({ days: 1, selfSigned: true }, (err, keys) => {
+  isHttps
+    ? pem.createCertificate({ days: 1, selfSigned: true }, (err, keys) => {
         if (err) {
           throw err;
         }
         https
           .createServer({ key: keys.serviceKey, cert: keys.certificate }, app)
-          .listen(port, listener);
-      });
+          .listen(PORT, HOST, listener);
+      })
+    : http.createServer(app).listen(PORT, HOST, listener);
 }
 
-if (process.env.CLUSTER) {
+if (CLUSTER) {
   const cluster = require('cluster');
   const numCPUs = require('os').cpus().length;
 
