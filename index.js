@@ -59,7 +59,6 @@ app.use(
   require('./vulnerabilities/csp-header-insecure')
 );
 app.use('/config', require('./vulnerabilities/config'));
-app.use('/serialization', require('./vulnerabilities/serialization'));
 app.use('/mongoose', require('./vulnerabilities/mongoose'));
 app.use('/typecheck', require('./vulnerabilities/typecheck'));
 app.use('/mongoose', require('./vulnerabilities/mongoose'));
