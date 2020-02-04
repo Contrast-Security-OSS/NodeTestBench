@@ -64,6 +64,7 @@ app.use('/typecheck', require('./vulnerabilities/typecheck'));
 app.use('/mongoose', require('./vulnerabilities/mongoose'));
 app.use('/express-session', require('./vulnerabilities/express-session'));
 app.use('/ddb', require('./vulnerabilities/dynamodb'));
+app.use('/responseRender', require('./vulnerabilities/render'));
 
 // adding current year for footer to be up to date
 app.locals.navRoutes = navRoutes;
