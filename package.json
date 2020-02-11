@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@contrast/test-bench-content": "^2.4.0",
-    "@contrast/test-bench-utils": "^2.7.0",
+    "@contrast/test-bench-utils": "^2.10.0",
     "aws-sdk": "^2.397.0",
     "body-parser": "^1.14.2",
     "cookie-parser": "^1.4.3",
