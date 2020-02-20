@@ -41,6 +41,7 @@ const isHttps = SSL === '1' ? true : false;
 require('./vulnerabilities/static');
 app.use('/assets', express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(bodyParser.json({ limit: '50mb', extended: true }));
 app.use(cookieParser('keyboard cat'));
 
 app.set('views', `${__dirname}/views`);
