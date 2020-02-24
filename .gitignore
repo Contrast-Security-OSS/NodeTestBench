@@ -260,3 +260,5 @@ vulnerabilities/unsafeFileUpload/uploads/
 
 # new relic agent logs
 newrelic_agent.log
+
+.vscode/
